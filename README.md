@@ -1,6 +1,7 @@
-## BulletMLLib
+## BulletMLLib4Unity
 
-A C# library used to read BulletML XML files, based on the implementation by Keiichi Kashihara of Bandle Games...
+A fork off of https://github.com/dmanning23/BulletMLLib/ with modifications for using it with Unity2d.
+This is a C# library used to read BulletML XML files, based on the implementation by Keiichi Kashihara of Bandle Games.
 
 https://sites.google.com/site/bandlegames/bulletml-c
 
@@ -12,22 +13,7 @@ Based on the spec at ABA Games:
 
 http://www.asahi-net.or.jp/~cs8k-cyu/bulletml/index_e.html
 
-The wiki is a great reference for writing bulletML scripts:
 
-https://github.com/dmanning23/BulletMLLib/wiki
+## Getting started
 
-## BulletMLLibQuickStart
-
-For an example of how to use the BulletMLLib, check out the QuickStart project:
-
-https://github.com/dmanning23/BulletMLLibQuickStart
-
-It uses BulletMLLib as a submodule, so to checkout out all the code:
-
-git clone https://github.com/dmanning23/BulletMLLibQuickStart
-
-cd BulletMLLibQuickStart
-
-git submodule init
-
-git submodule update
+Coming soon.

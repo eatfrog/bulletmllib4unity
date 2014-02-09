@@ -58,15 +58,14 @@ namespace BulletMLLib
 			return (EPatternType)Enum.Parse(typeof(EPatternType), str);
 		}
 
-		/// <summary>
-		/// Parses a bulletml document into this bullet pattern
-		/// </summary>
-		/// <param name="xmlFilePath">Xml file name.</param>
+        /// <summary>
+        /// Parses a bullet pattern from a BulletML Xml file
+        /// </summary>
+        /// <param name="reader">The XmlReader that contains the xmlfile. Note that if you open it as a local file the web player will not work.
+        /// You can use WWW-requests instead.</param>
+        /// <param name="callback">A callback function for when the fileparsing is completed</param>
         public void ParseXML(XmlReader reader, Action callback)
 		{
-
-
-
 
 			try
 			{
@@ -147,6 +146,6 @@ namespace BulletMLLib
 			                             args.Exception.LineNumber,
 			                             args.Exception.LinePosition);
 		}
-		#endregion //Methods
+		#endregion
 	}
 }
