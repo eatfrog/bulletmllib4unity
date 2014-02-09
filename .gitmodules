@@ -1,0 +1,6 @@
+[submodule "BulletMLSample/Content/Samples"]
+	path = BulletMLSample/Content/Samples
+	url = https://github.com/dmanning23/BulletMLExamples.git
+[submodule "externals/Equationator"]
+	path = externals/Equationator
+	url = https://github.com/dmanning23/Equationator.git
