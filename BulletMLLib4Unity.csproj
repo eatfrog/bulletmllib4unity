@@ -48,6 +48,7 @@
     <Compile Include="Bullet.cs" />
     <Compile Include="BulletMLEquation.cs" />
     <Compile Include="BulletPattern.cs" />
+    <Compile Include="Emitter.cs" />
     <Compile Include="ENodeName.cs" />
     <Compile Include="ENodeType.cs" />
     <Compile Include="EPatternType.cs" />

@@ -291,6 +291,7 @@ namespace BulletMLLib
 		{
 			//Create the new bullet
 			Bullet newBullet = bullet.MyBulletManager.CreateBullet();
+            
 
 			if (newBullet == null)
 			{
@@ -313,7 +314,7 @@ namespace BulletMLLib
 			FireNode myFireNode = Node as FireNode;
 			Debug.Assert(null != myFireNode);
 			newBullet.InitNode(myFireNode.BulletDescriptionNode);
-
+            newBullet.BulletSpawned();
 			//set the owner of all the top level tasks for the new bullet to this dude
 			foreach (BulletMLTask task in newBullet.Tasks)
 			{

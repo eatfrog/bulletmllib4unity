@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BulletMLLib4Unity", "BulletMLLib4Unity.csproj", "{09435B69-7AF7-452D-8B19-984FCFFED149}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleApplication", "ExampleApplication\ExampleApplication.csproj", "{D8719284-A3FC-461F-A39F-75177FEEE55D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,10 @@ Global
 		{09435B69-7AF7-452D-8B19-984FCFFED149}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{09435B69-7AF7-452D-8B19-984FCFFED149}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{09435B69-7AF7-452D-8B19-984FCFFED149}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8719284-A3FC-461F-A39F-75177FEEE55D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8719284-A3FC-461F-A39F-75177FEEE55D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8719284-A3FC-461F-A39F-75177FEEE55D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8719284-A3FC-461F-A39F-75177FEEE55D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

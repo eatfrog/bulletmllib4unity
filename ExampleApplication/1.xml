@@ -1,0 +1,27 @@
+<?xml version="1.0" ?>
+<!DOCTYPE bulletml SYSTEM "http://www.asahi-net.or.jp/~cs8k-cyu/bulletml/bulletml.dtd">
+
+<!-- type måste vara vertical här -->
+<bulletml type="vertical"
+          xmlns="http://www.asahi-net.or.jp/~cs8k-cyu/bulletml" name="foobar">
+
+<action label="top"> <!-- den första måste heta top -->
+
+
+<repeat>
+<times>100</times>
+
+	<action>
+		 <fire>
+				<direction type="absolute">0</direction> <!-- 0 är neråt -->
+				<speed>2</speed> <!-- 2 är typ ganska snabbt med timescale 0.02 -->
+				<bullet /> <!-- ingen ref, bara vanlig bullet utan beteende -->
+		 </fire>
+		 	<wait>3</wait> <!-- 3 är liten wait, typ tiondels sekund -->
+	</action>
+
+</repeat>
+</action>
+
+
+</bulletml>

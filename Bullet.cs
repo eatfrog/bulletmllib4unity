@@ -12,8 +12,6 @@ namespace BulletMLLib
 	/// </summary>
 	public abstract class Bullet
 	{
-		#region Members
-
 		/// <summary>
 		/// The direction this bullet is travelling.  Measured as an angle in radians
 		/// </summary>
@@ -28,7 +26,7 @@ namespace BulletMLLib
 		/// <summary>
 		/// The tree node that describes this bullet.  These are shared between multiple bullets
 		/// </summary>
-		public BulletMLNode MyNode { get; private set; }
+		public BulletMLNode Node { get; private set; }
 
 		/// <summary>
 		/// How fast time moves in this game.
@@ -43,12 +41,6 @@ namespace BulletMLLib
 		/// </summary>
 		/// <value>The scale.</value>
 		public float Scale { get; set; }
-
-		//TODO: do a task factory, we are going to be creating a LOT of those little dudes
-
-		#endregion //Members
-
-		#region Properties
 
 		/// <summary>
 		/// The acceleration of this bullet
@@ -71,23 +63,15 @@ namespace BulletMLLib
 		/// Abstract property to get the X location of this bullet.
 		/// measured in pixels from upper left
 		/// </summary>
-		/// <value>The horizontrla position.</value>
-		public abstract float X
-		{
-			get;
-			set;
-		}
+		/// <value>The horizontal position.</value>
+		public abstract float X { get; set; }
 
 		/// <summary>
 		/// Gets or sets the y parameter of the location
 		/// measured in pixels from upper left
 		/// </summary>
 		/// <value>The vertical position.</value>
-		public abstract float Y
-		{
-			get;
-			set;
-		}
+		public abstract float Y { get; set; }
 
 		/// <summary>
 		/// Gets my bullet manager.
@@ -135,13 +119,9 @@ namespace BulletMLLib
 		{
 			get
 			{
-				return MyNode.Label;
+				return Node.Label;
 			}
 		}
-
-		#endregion //Properties
-
-		#region Methods
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="BulletMLLib.Bullet"/> class.
@@ -162,58 +142,6 @@ namespace BulletMLLib
 			Scale = 1.0f;
 		}
 
-		/// <summary>
-		/// Initialize this bullet with a top level node
-		/// </summary>
-		/// <param name="rootNode">This is a top level node... find the first "top" node and use it to define this bullet</param>
-		public void InitTopNode(BulletMLNode rootNode)
-		{
-
-			//okay find the item labelled 'top'
-			bool bValidBullet = false;
-			BulletMLNode topNode = rootNode.FindLabelNode("top", ENodeName.action);
-			if (topNode != null)
-			{
-				//initialize with the top node we found!
-				InitNode(topNode);
-				bValidBullet = true;
-			}
-			else
-			{
-				//ok there is no 'top' node, so that means we have a list of 'top#' nodes
-				for (int i = 1; i < 10; i++)
-				{
-					topNode = rootNode.FindLabelNode("top" + i, ENodeName.action);
-					if (topNode != null)
-					{
-						if (!bValidBullet)
-						{
-							//Use this bullet!
-							InitNode(topNode);
-							bValidBullet = true;
-						}
-						else
-						{
-							//Create a new bullet
-							Bullet newDude = _bulletManager.CreateBullet();
-
-							//set the position to this dude's position
-							newDude.X = this.X;
-							newDude.Y = this.Y;
-
-							//initialize with the node we found
-							newDude.InitNode(topNode);
-						}
-					}
-				}
-			}
-
-			if (!bValidBullet)
-			{
-				//We didnt find a "top" node for this dude, remove him from the game.
-				_bulletManager.RemoveBullet(this);
-			}
-		}
 		
 		/// <summary>
 		/// This bullet is fired from another bullet, initialize it from the node that fired it
@@ -225,7 +153,7 @@ namespace BulletMLLib
 			Tasks.Clear();
 			
 			//Grab that top level node
-			MyNode = subNode;
+			Node = subNode;
 
 			//found a top num node, add a task for it
 			BulletMLTask task = new BulletMLTask(subNode, null);
@@ -315,6 +243,8 @@ namespace BulletMLLib
 			return null;
 		}
 
-		#endregion //Methods
+
+        // Needs to be run after node init
+        public abstract void BulletSpawned();
 	}
 }

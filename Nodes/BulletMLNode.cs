@@ -8,11 +8,24 @@ namespace BulletMLLib
 {
 	/// <summary>
 	/// This is a single node from a BulletML document.
-	/// Used as the base node for all teh other node types.
+	/// Used as the base node for all the other node types.
 	/// </summary>
 	public class BulletMLNode
 	{
-		#region Members
+
+        internal string PatternName { get; set; }
+        public string GetPatternName()
+        {
+            if (!String.IsNullOrEmpty(PatternName)) return PatternName;
+            else return RecursivePatternname(this);                   
+
+        }
+
+        private string RecursivePatternname(BulletMLNode n)
+        {
+            if (String.IsNullOrEmpty(n.PatternName) && n.Parent != null) return RecursivePatternname(n.Parent);
+            else return n.PatternName;
+        }
 
 		/// <summary>
 		/// The XML node name of this item
@@ -62,8 +75,7 @@ namespace BulletMLLib
 		/// pointer to the parent node of this dude
 		/// </summary>
 		protected BulletMLNode Parent { get; private set; }
-
-		#endregion //Members
+		
 
 		#region Methods
 
@@ -245,27 +257,23 @@ namespace BulletMLLib
 
 			//Parse all our attributes
 			XmlNamedNodeMap mapAttributes = bulletNodeElement.Attributes;
+
 			for (int i = 0; i < mapAttributes.Count; i++)
 			{
-				string strName = mapAttributes.Item(i).Name;
-				string strValue = mapAttributes.Item(i).Value;
+				string name = mapAttributes.Item(i).Name;
+				string value = mapAttributes.Item(i).Value;
 
-				if ("type" == strName)
-				{
-					//skip the type attribute in top level nodes
-					if (ENodeName.bulletml == Name)
-					{
-						continue;
-					}
+                if ("type" == name && ENodeName.bulletml == Name) continue;
 
-					//get the bullet node type
-					NodeType = BulletMLNode.StringToType(strValue);
-				}
-				else if ("label" == strName)
-				{
-					//label is just a text value
-					Label = strValue;
-				}
+                if (name == "type")				//get the bullet node type
+                    NodeType = BulletMLNode.StringToType(value);
+
+                else if (name == "label")
+                    Label = value; //label is just a text value
+
+                else if (name == "name")
+                    PatternName = value;
+
 			}
 
 			//parse all the child nodes

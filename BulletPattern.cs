@@ -13,21 +13,22 @@ namespace BulletMLLib
 	/// </summary>
 	public class BulletPattern
 	{
-		#region Members
-
+        public BulletPattern(string path)
+        {
+            var settings = new XmlReaderSettings { ProhibitDtd = false };
+            var reader = XmlReader.Create(path, settings);
+            ParseXML(reader, null);
+        }
+        public BulletPattern(XmlReader reader)
+        {
+            ParseXML(reader, null);
+        }
 		/// <summary>
 		/// The root node of a tree structure that describes the bullet pattern
 		/// </summary>
 		public BulletMLNode RootNode { get; private set; }
 
-		//TODO: move filename class to github and use it here
-
-		/// <summary>
-		/// Gets the filename.
-		/// This property is only set by calling the parse method
-		/// </summary>
-		/// <value>The filename.</value>
-		public string Filename { get; private set; }
+		public string Filename { get; set; }
 
 		/// <summary>
 		/// the orientation of this bullet pattern: horizontal or veritcal
@@ -36,9 +37,6 @@ namespace BulletMLLib
 		/// <value>The orientation.</value>
 		public EPatternType Orientation { get; private set; }
 
-		#endregion //Members
-
-		#region Methods
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="BulletMLLib.BulletPattern"/> class.
@@ -130,8 +128,19 @@ namespace BulletMLLib
                 UnityEngine.Debug.Log("Error reading \"" +  "\"" + ex.Message);
 				throw new Exception("Error reading \"" + "\"", ex);
 			}
-            UnityEngine.Debug.Log("Loading done.");
-            callback();
+
+            try
+            {
+                UnityEngine.Debug.Log("Loading done.");
+            }
+            catch (Exception)
+            {
+                // will throw if not running unity                
+            }
+            
+
+            if (callback != null)
+                callback();
 		}
 
 		/// <summary>
@@ -146,6 +155,5 @@ namespace BulletMLLib
 			                             args.Exception.LineNumber,
 			                             args.Exception.LinePosition);
 		}
-		#endregion
 	}
 }
