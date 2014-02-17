@@ -20,10 +20,10 @@ namespace ExampleApplication
             return;
         }
 
-        public Bullet CreateBullet()
+        public Bullet CreateBullet(Emitter e)
         {
             Console.WriteLine("New bullet created");
-            return new FakeBullet(this);
+            return new FakeBullet(this, e);
         }
     }
 }

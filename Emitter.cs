@@ -29,6 +29,7 @@ namespace BulletMLLib
             _bulletManager = bulletManager;
             _pattern = pattern;
             _rootBullet = rootBullet;
+            _rootBullet.Emitter = this;
             InitTopNode(pattern.RootNode);
         }
 
@@ -74,7 +75,7 @@ namespace BulletMLLib
                         else
                         {
                             //Create a new bullet
-                            Bullet b = _bulletManager.CreateBullet();
+                            Bullet b = _bulletManager.CreateBullet(this);
 
                             //set the position to this dude's position
                             b.X = _rootBullet.X;

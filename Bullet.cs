@@ -85,6 +85,9 @@ namespace BulletMLLib
 			}
 		}
 
+        // who is firing this? Needs to be set by the implementation of CreateBullet
+        public Emitter Emitter { get; set; }
+
 		/// <summary>
 		/// Gets or sets the direction.
 		/// </summary>

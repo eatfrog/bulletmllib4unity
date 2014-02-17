@@ -27,7 +27,7 @@ namespace BulletMLLib
 		/// Create a new bullet.
 		/// </summary>
 		/// <returns>A shiny new bullet</returns>
-		Bullet CreateBullet();
+		Bullet CreateBullet(Emitter emitter);
 
 		#endregion //Methods
 	}

@@ -9,11 +9,20 @@ namespace ExampleApplication
 {
     public class FakeBullet : Bullet
     {
-        public FakeBullet(FakeBulletManager myBulletManager) : base(myBulletManager)
+
+        public FakeBullet(FakeBulletManager myBulletManager)
+            : base(myBulletManager)
         {
 
         }
 
+
+        public FakeBullet(FakeBulletManager myBulletManager, Emitter e) : base(myBulletManager)
+        {
+            Emitter = e;
+        }
+
+        public Emitter Emitter { get; set; }
         public override float X
         {
             get
