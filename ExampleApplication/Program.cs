@@ -17,7 +17,7 @@ namespace ExampleApplication
             var bullet = new FakeBullet(bm);
             var emitter = new FakeEmitter(bm, pattern, bullet);
 
-            for (int i = 0; i < 500; i++)
+            for (int i = 0; i < 5000; i++)
             {
                 emitter.Update(0, 0);                
             }

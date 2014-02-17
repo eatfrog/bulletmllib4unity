@@ -33,6 +33,10 @@ namespace BulletMLLib
             InitTopNode(pattern.RootNode);
         }
 
+        public void ClearTasks()
+        {
+            _rootBullet.Tasks.Clear();
+        }
         public void Update(float x, float y)
         {
             _rootBullet.X = x;

@@ -84,9 +84,6 @@ namespace BulletMLLib
 		/// <param name="owner">Owner.</param>
 		public FireTask(FireNode node, BulletMLTask owner) : base(node, owner)
 		{
-			Debug.Assert(null != Node);
-			Debug.Assert(null != Owner);
-
 			NumTimesInitialized = 0;
 		}
 
@@ -293,7 +290,7 @@ namespace BulletMLLib
 			Bullet newBullet = bullet.MyBulletManager.CreateBullet(bullet.Emitter);
             
 
-			if (newBullet == null)
+			if (newBullet == null || newBullet.Emitter == null)
 			{
 				//wtf did you do???
 				TaskFinished = true;
@@ -331,10 +328,8 @@ namespace BulletMLLib
 		/// <param name="taskToCheck">task to check if has a child direction node.</param>
 		private void GetDirectionTasks(BulletMLTask taskToCheck)
 		{
-			if (null == taskToCheck)
-			{
-				return;
-			}
+			if (null == taskToCheck)			
+				return;			
 
 			//check if the dude has a direction node
 			DirectionNode dirNode = taskToCheck.Node.GetChild(ENodeName.direction) as DirectionNode;

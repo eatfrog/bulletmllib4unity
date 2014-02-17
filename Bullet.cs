@@ -175,11 +175,9 @@ namespace BulletMLLib
 		/// </summary>
 		public virtual void Update()
 		{
-			//Flag to tell whether or not this bullet has finished all its tasks
-			for (int i = 0; i < Tasks.Count; i++)
-			{
-				Tasks[i].Run(this);
-			}
+            if (Emitter != null) // when emitter is gone, let the bullet fly away without further actions            
+                Tasks.ForEach(x => x.Run(this));
+            
 
 			//only do this stuff if the bullet isn't done, cuz sin/cosin are expensive
 			X += (Acceleration.x + (float)(Math.Sin(Direction) * (Speed * TimeSpeed))) * Scale;
