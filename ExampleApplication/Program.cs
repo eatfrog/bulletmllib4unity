@@ -17,9 +17,11 @@ namespace ExampleApplication
             var bullet = new FakeBullet(bm);
             var emitter = new FakeEmitter(bm, pattern, bullet);
 
-            for (int i = 0; i < 5000; i++)
+            for (int i = 0; i < 500; i++)
             {
-                emitter.Update(0, 0);                
+                emitter.Update(0, 0);
+                bm.bullets.ForEach(x => x.Update());
+                bm.bullets.ForEach(x => Console.WriteLine(String.Format("X: {0} Y: {1} Aim: {2}", x.X, x.Y, x.GetAimDir())));
             }
             Console.ReadKey();
         }

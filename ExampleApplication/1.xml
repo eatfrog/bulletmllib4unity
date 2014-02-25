@@ -3,25 +3,43 @@
 
 <!-- type måste vara vertical här -->
 <bulletml type="vertical"
-          xmlns="http://www.asahi-net.or.jp/~cs8k-cyu/bulletml" name="foobar">
+          xmlns="http://www.asahi-net.or.jp/~cs8k-cyu/bulletml" name="yellow">
 
 <action label="top"> <!-- den första måste heta top -->
 
 
-<repeat>
-<times>100</times>
-
+<repeat><times>100</times>
 	<action>
 		 <fire>
-				<direction type="absolute">0</direction> <!-- 0 är neråt -->
-				<speed>2</speed> <!-- 2 är typ ganska snabbt med timescale 0.02 -->
+				<direction type="absolute">$rand</direction> <!-- 0 är neråt -->
+				<speed>1.2</speed> <!-- 2 är typ ganska snabbt med timescale 0.02 -->
 				<bullet /> <!-- ingen ref, bara vanlig bullet utan beteende -->
 		 </fire>
-		 	<wait>3</wait> <!-- 3 är liten wait, typ tiondels sekund -->
+		<wait>0.7</wait> <!-- 3 är liten wait, typ tiondels sekund -->
+			
+
+		<fireRef label="test">
+			<param>17</param>
+		</fireRef>
+	 
+
 	</action>
 
 </repeat>
 </action>
+
+<fire label="test">
+	<bullet>
+		<action>
+			<fire>
+				<direction type="sequence">$1</direction>
+				<speed>0.2</speed>
+				 <bullet/>
+			</fire>
+		</action>
+	</bullet>
+</fire>
+
 
 
 </bulletml>

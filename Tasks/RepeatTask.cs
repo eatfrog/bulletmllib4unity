@@ -10,7 +10,6 @@ namespace BulletMLLib
 	/// </summary>
 	public class RepeatTask : BulletMLTask
 	{
-		#region Methods
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="BulletMLLib.BulletMLTask"/> class.
@@ -35,7 +34,6 @@ namespace BulletMLLib
 			//Call the HardReset method of the base class
 			HardReset(bullet);
 		}
-		
-		#endregion //Methods
+
 	}
 }

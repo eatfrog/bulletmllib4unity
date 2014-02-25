@@ -8,7 +8,6 @@ namespace BulletMLLib
 	/// </summary>
 	public class SetDirectionTask : BulletMLTask
 	{
-		#region Methods
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="BulletMLLib.BulletMLTask"/> class.
@@ -21,6 +20,5 @@ namespace BulletMLLib
 			Debug.Assert(null != Owner);
 		}
 
-		#endregion //Methods
 	}
 }

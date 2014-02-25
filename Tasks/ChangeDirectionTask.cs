@@ -8,10 +8,9 @@ namespace BulletMLLib
 	/// </summary>
 	public class ChangeDirectionTask : BulletMLTask
 	{
-		#region Members
 
 		/// <summary>
-		/// The amount to change driection every frame
+		/// The amount to change direction every frame
 		/// </summary>
 		private float DirectionChange;
 
@@ -19,10 +18,6 @@ namespace BulletMLLib
 		/// How long to run this task... measured in frames
 		/// </summary>
 		private float Duration { get; set; }
-
-		#endregion //Members
-
-		#region Methods
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="BulletMLLib.BulletMLTask"/> class.
@@ -124,6 +119,5 @@ namespace BulletMLLib
 			}
 		}
 
-		#endregion //Methods
 	}
 }

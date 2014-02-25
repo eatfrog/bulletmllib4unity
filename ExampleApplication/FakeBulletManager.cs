@@ -9,6 +9,7 @@ namespace ExampleApplication
 {
     public class FakeBulletManager : IBulletManager
     {
+        public List<FakeBullet> bullets = new List<FakeBullet>();
         public Vector2 PlayerPosition(Bullet targettedBullet)
         {
             return new Vector2(0, 0);
@@ -23,7 +24,9 @@ namespace ExampleApplication
         public Bullet CreateBullet(Emitter e)
         {
             Console.WriteLine("New bullet created");
-            return new FakeBullet(this, e);
+            var bullet = new FakeBullet(this, e);
+            bullets.Add(bullet);
+            return bullet;
         }
     }
 }
