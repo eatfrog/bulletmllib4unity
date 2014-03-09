@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 using UnityEngine;
 namespace BulletMLLib
 {
@@ -7,9 +8,7 @@ namespace BulletMLLib
 	/// </summary>
 	public class AccelTask : BulletMLTask
 	{
-		#region Members
-
-		/// <summary>
+	    /// <summary>
 		/// How long to run this task... measured in frames
 		/// </summary>
 		public float Duration { get; private set; }
@@ -29,17 +28,9 @@ namespace BulletMLLib
 			{
 				return _acceleration;
 			}
-			private set
-			{
-				_acceleration = value;
-			}
 		}
 
-		#endregion //Members
-
-		#region Methods
-
-		/// <summary>
+	    /// <summary>
 		/// Initializes a new instance of the <see cref="BulletMLLib.BulletMLTask"/> class.
 		/// </summary>
 		/// <param name="node">Node.</param>
@@ -59,13 +50,13 @@ namespace BulletMLLib
 			Duration = Node.GetChildValue(ENodeName.term, this);
 
 			//check for divide by 0
-			if (0.0f == Duration)
+			if (Math.Abs(Duration) < 0.0f)
 			{
 				Duration = 1.0f;
 			}
 
 			//Get the horizontal node
-			HorizontalNode horiz = Node.GetChild(ENodeName.horizontal) as HorizontalNode;
+			var horiz = Node.GetChild(ENodeName.horizontal) as HorizontalNode;
 			if (null != horiz)
 			{
 				//Set the x component of the acceleration
@@ -96,33 +87,32 @@ namespace BulletMLLib
 
 			//Get the vertical node
 			VerticalNode vert = Node.GetChild(ENodeName.vertical) as VerticalNode;
-			if (null != vert)
-			{
-				//set teh y component of the acceleration
-				switch (vert.NodeType)
-				{
-					case ENodeType.sequence:
-					{
-						//Sequence in an acceleration node means "add this amount every frame"
-						_acceleration.y = vert.GetValue(this);
-					}
-					break;
+		    if (null == vert) return;
 
-					case ENodeType.relative:
-					{
-						//accelerate by a certain amount
-						_acceleration.y = vert.GetValue(this) / Duration;
-					}
-					break;
+		    //set teh y component of the acceleration
+		    switch (vert.NodeType)
+		    {
+		        case ENodeType.sequence:
+		        {
+		            //Sequence in an acceleration node means "add this amount every frame"
+		            _acceleration.y = vert.GetValue(this);
+		        }
+		            break;
 
-					default:
-					{
-						//accelerate to a specific value
-						_acceleration.y = (vert.GetValue(this) - bullet.Acceleration.y) / Duration;
-					}
-					break;
-				}
-			}
+		        case ENodeType.relative:
+		        {
+		            //accelerate by a certain amount
+		            _acceleration.y = vert.GetValue(this) / Duration;
+		        }
+		            break;
+
+		        default:
+		        {
+		            //accelerate to a specific value
+		            _acceleration.y = (vert.GetValue(this) - bullet.Acceleration.y) / Duration;
+		        }
+		            break;
+		    }
 		}
 
 		/// <summary>
@@ -149,7 +139,5 @@ namespace BulletMLLib
 				return ERunStatus.Continue;
 			}
 		}
-
-		#endregion //Methods
 	}
 }

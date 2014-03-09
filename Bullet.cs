@@ -13,11 +13,6 @@ namespace BulletMLLib
 	public abstract class Bullet
 	{
 		/// <summary>
-		/// The direction this bullet is travelling.  Measured as an angle in radians
-		/// </summary>
-		private float _direction;
-
-		/// <summary>
 		/// A bullet manager that manages this bullet.
 		/// </summary>
 		/// <value>My bullet manager.</value>
@@ -88,6 +83,8 @@ namespace BulletMLLib
         // who is firing this? Needs to be set by the implementation of CreateBullet
         public Emitter Emitter { get; set; }
 
+
+        private float _direction;
 		/// <summary>
 		/// Gets or sets the direction.
 		/// </summary>
@@ -130,7 +127,7 @@ namespace BulletMLLib
 		/// Initializes a new instance of the <see cref="BulletMLLib.Bullet"/> class.
 		/// </summary>
 		/// <param name="myBulletManager">My bullet manager.</param>
-		public Bullet(IBulletManager myBulletManager)
+		protected Bullet(IBulletManager myBulletManager)
 		{
 			//grba the bullet manager for this dude
 			//Debug.Assert(null != myBulletManager);
@@ -178,10 +175,9 @@ namespace BulletMLLib
             if (Emitter != null) // when emitter is gone, let the bullet fly away without further actions            
                 Tasks.ForEach(x => x.Run(this));
             
-
-			//only do this stuff if the bullet isn't done, cuz sin/cosin are expensive
-			X += (Acceleration.x + (float)(Math.Sin(Direction) * (Speed * TimeSpeed))) * Scale;
-			Y += (Acceleration.y + (float)(-Math.Cos(Direction) * (Speed * TimeSpeed))) * Scale;
+            float speed = (Speed * TimeSpeed) * Scale;
+			X += Acceleration.x + (float)(Math.Sin(Direction) * speed);
+			Y += Acceleration.y + (float)(-Math.Cos(Direction) * speed);
 		}
 
 		/// <summary>
@@ -189,16 +185,9 @@ namespace BulletMLLib
 		/// </summary>
 		/// <returns>angle to target the bullet</returns>
 		public float GetAimDir()
-		{
-			//get the player position so we can aim at that little fucker
-			
+		{		
 			Vector2 shipPos = MyBulletManager.PlayerPosition(this);
-
-			//TODO: this function doesn't seem to work... bullets sometimes just spin around in circles?
-
-			//get the angle at that dude
-			float val = (float)Math.Atan2((shipPos.x - X), -(shipPos.y - Y));
-			return val;
+			return (float)Math.Atan2((shipPos.x - X), -(shipPos.y - Y));
 		}
 
 		/// <summary>

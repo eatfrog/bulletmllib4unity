@@ -13,21 +13,15 @@ namespace BulletMLLib
     public class Emitter
     {
         // This is not really a bullet, but its pattern holder. needed for x, y and such, for now at least.   
-        private Bullet _rootBullet;
-        private BulletPattern _pattern;
-        public BulletPattern Pattern
-        {
-            get
-            {
-                return _pattern;
-            }
-        }
+        private readonly Bullet _rootBullet;
+        public BulletPattern Pattern { get; private set; }
+
         private readonly IBulletManager _bulletManager;
 
         public Emitter(IBulletManager bulletManager, BulletPattern pattern, Bullet rootBullet)
         {
             _bulletManager = bulletManager;
-            _pattern = pattern;
+            Pattern = pattern;
             _rootBullet = rootBullet;
             _rootBullet.Emitter = this;
             InitTopNode(pattern.RootNode);

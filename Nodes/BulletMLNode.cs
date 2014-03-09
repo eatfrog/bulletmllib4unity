@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Diagnostics;
+using System.Linq;
 using System.Xml;
 
 namespace BulletMLLib
@@ -17,31 +16,28 @@ namespace BulletMLLib
         public string GetPatternName()
         {
             if (!String.IsNullOrEmpty(PatternName)) return PatternName;
-            else return RecursivePatternname(this);                   
 
+            return RecursivePatternname(this);
         }
 
-        private string RecursivePatternname(BulletMLNode n)
-        {
-            if (String.IsNullOrEmpty(n.PatternName) && n.Parent != null) return RecursivePatternname(n.Parent);
-            else return n.PatternName;
-        }
+	    private static string RecursivePatternname(BulletMLNode n)
+	    {
+	        if (String.IsNullOrEmpty(n.PatternName) && n.Parent != null) return RecursivePatternname(n.Parent);
 
-		/// <summary>
+	        return n.PatternName;
+	    }
+
+	    /// <summary>
 		/// The XML node name of this item
 		/// </summary>
 		public ENodeName Name { get; private set; }
 
 		/// <summary>
-		/// The type modifier of this node... like is it a sequence, or whatver
+		/// The type modifier of this node... like is it a sequence, or whatever
 		/// </summary>
 		private ENodeType _nodeType = ENodeType.none;
 
-		/// <summary>
-		/// Gets or sets the type of the node.
-		/// This is virtual so sub-classes can override it and validate their own shit.
-		/// </summary>
-		/// <value>The type of the node.</value>
+
 		public virtual ENodeType NodeType 
 		{ 
 			get
@@ -64,7 +60,7 @@ namespace BulletMLLib
 		/// An equation used to get a value of this node.
 		/// </summary>
 		/// <value>The node value.</value>
-		protected BulletMLEquation NodeEquation = new BulletMLEquation();
+		private readonly BulletMLEquation NodeEquation = new BulletMLEquation();
 
 		/// <summary>
 		/// A list of all the child nodes for this dude
@@ -74,12 +70,10 @@ namespace BulletMLLib
 		/// <summary>
 		/// pointer to the parent node of this dude
 		/// </summary>
-		protected BulletMLNode Parent { get; private set; }
-		
+		public BulletMLNode Parent { get; set; }
 
-		#region Methods
 
-		/// <summary>
+	    /// <summary>
 		/// Initializes a new instance of the <see cref="BulletMLLib.BulletMLNode"/> class.
 		/// </summary>
 		public BulletMLNode(ENodeName nodeType)
@@ -123,17 +117,12 @@ namespace BulletMLLib
 		/// <returns>The root node.</returns>
 		public BulletMLNode GetRootNode()
 		{
-			//recurse up until we get to the root node
-			if (null != Parent)
-			{
-				return Parent.GetRootNode();
-			}
+		    //recurse up until we get to the root node
+		    return Parent != null ? Parent.GetRootNode() : this;
 
-			//if it gets here, there is no parent node and this is the root.
-			return this;
 		}
 
-		/// <summary>
+	    /// <summary>
 		/// Find a node of a specific type and label
 		/// Recurse into the xml tree until we find it!
 		/// </summary>
@@ -174,24 +163,12 @@ namespace BulletMLLib
 		/// <param name="nodeType">Node type to find.</param>
 		public BulletMLNode FindParentNode(ENodeName nodeType)
 		{
-			//first check if we have a parent node
-			if (null == Parent)
-			{
-				return null;
-			}
-			else if (nodeType == Parent.Name)
-			{
-				//Our parent matches the query, reutrn it!
-				return Parent;
-			}
-			else
-			{
-				//recurse into parent nodes to check grandparents, etc.
-				return Parent.FindParentNode(nodeType);
-			}
+		    //first check if we have a parent node
+			if (null == Parent) return null;
+		    return nodeType == Parent.Name ? Parent : Parent.FindParentNode(nodeType);
 		}
 
-		/// <summary>
+	    /// <summary>
 		/// Gets the value of a specific type of child node for a task
 		/// </summary>
 		/// <returns>The child value. return 0.0 if no node found</returns>
@@ -199,34 +176,20 @@ namespace BulletMLLib
 		/// <param name="task">Task to get a value for</param>
 		public float GetChildValue(ENodeName name, BulletMLTask task)
 		{
-			foreach (BulletMLNode tree in ChildNodes)
-			{
-				if (tree.Name == name)
-				{
-					return tree.GetValue(task);
-				}
-			}
-			return 0.0f;
+		    return (from tree in ChildNodes where tree.Name == name select tree.GetValue(task)).FirstOrDefault();
 		}
 
-		/// <summary>
+	    /// <summary>
 		/// Get a direct child node of a specific type.  Does not recurse!
 		/// </summary>
 		/// <returns>The child.</returns>
 		/// <param name="name">type of node we want. null if not found</param>
 		public BulletMLNode GetChild(ENodeName name)
 		{
-			foreach (BulletMLNode node in ChildNodes)
-			{
-				if (node.Name == name)
-				{
-					return node;
-				}
-			}
-			return null;
+		    return ChildNodes.FirstOrDefault(node => node.Name == name);
 		}
 
-		/// <summary>
+	    /// <summary>
 		/// Gets the value of this node for a specific instance of a task.
 		/// </summary>
 		/// <returns>The value.</returns>
@@ -237,9 +200,7 @@ namespace BulletMLLib
 			return NodeEquation.Solve(task.GetParamValue);
 		}
 
-		#region XML Methods
-
-		/// <summary>
+	    /// <summary>
 		/// Parse the specified bulletNodeElement.
 		/// Read all the data from the xml node into this dude.
 		/// </summary>
@@ -319,9 +280,5 @@ namespace BulletMLLib
 				childnode.ValidateNode();
 			}
 		}
-
-		#endregion //XML Methods
-
-		#endregion //Methods
 	}
 }

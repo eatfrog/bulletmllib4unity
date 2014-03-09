@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.Xml;
 using System.Xml.Schema;
 using System.IO;
-using UnityEngine;
 using System.Collections;
 
 namespace BulletMLLib
@@ -73,7 +72,7 @@ namespace BulletMLLib
 				XmlNode rootXmlNode = xmlDoc.DocumentElement;
 				
 				//make sure it is actually an xml node
-				if (rootXmlNode.NodeType == XmlNodeType.Element)
+				if (rootXmlNode != null && rootXmlNode.NodeType == XmlNodeType.Element)
 				{
 					//eat up the name of that xml node
 					string strElementName = rootXmlNode.Name;
@@ -113,9 +112,6 @@ namespace BulletMLLib
 			}
 
             reader.Close();
-
-			//grab that filename 
-			//Filename = xmlFilePath;
 
 			//validate that the bullet nodes are all valid
 			try

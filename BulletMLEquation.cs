@@ -12,7 +12,7 @@ namespace BulletMLLib
 		/// <summary>
 		/// A randomizer for getting random values
 		/// </summary>
-		static private Random g_Random = new Random(DateTime.Now.Millisecond);
+		static private readonly Random GRandom = new Random(DateTime.Now.Millisecond);
 
 		public BulletMLEquation()
 		{
@@ -28,7 +28,7 @@ namespace BulletMLLib
 		public float RandomValue()
 		{
 			//this value is "$rand", return a random number
-			return (float)g_Random.NextDouble();
+			return (float)GRandom.NextDouble();
 		}
 
 		public float GameDifficulty()

@@ -59,7 +59,7 @@ namespace BulletMLLib
 		private RepeatNode FindParentRepeatNode()
 		{
 			//Parent node should never ever be empty on an action node
-			if (null == Parent)
+			if (Parent == null )
 			{
 				throw new NullReferenceException("Parent node cannot be empty on an action or actionRef node");
 			}
