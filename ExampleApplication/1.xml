@@ -1,28 +1,25 @@
 <?xml version="1.0" ?>
 <!DOCTYPE bulletml SYSTEM "http://www.asahi-net.or.jp/~cs8k-cyu/bulletml/bulletml.dtd">
 
-<!-- type måste vara vertical här -->
+<!-- name is not part of the official bulletml xml spec, but can be used to give patterns proper names -->
+<!-- or managing what type of bullets this particular patterns should be shooting --> 
 <bulletml type="vertical"
-          xmlns="http://www.asahi-net.or.jp/~cs8k-cyu/bulletml" name="yellow">
+          xmlns="http://www.asahi-net.or.jp/~cs8k-cyu/bulletml" name="yellow">  
 
-<action label="top"> <!-- den första måste heta top -->
-
+<action label="top">
 
 <repeat><times>100</times>
 	<action>
 		 <fire>
-				<direction type="absolute">$rand</direction> <!-- 0 är neråt -->
-				<speed>1.2</speed> <!-- 2 är typ ganska snabbt med timescale 0.02 -->
-				<bullet /> <!-- ingen ref, bara vanlig bullet utan beteende -->
+				<direction type="absolute">$rand</direction>
+				<speed>1.2</speed>
+				<bullet /> <!-- shoot the bullet! -->
 		 </fire>
-		<wait>0.7</wait> <!-- 3 är liten wait, typ tiondels sekund -->
+		<wait>0.7</wait>
 			
-
-		<fireRef label="test">
+		<fireRef label="test"> <!-- jump to label test below -->
 			<param>17</param>
 		</fireRef>
-	 
-
 	</action>
 
 </repeat>
@@ -39,7 +36,6 @@
 		</action>
 	</bullet>
 </fire>
-
 
 
 </bulletml>

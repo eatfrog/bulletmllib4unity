@@ -16,4 +16,4 @@ http://www.asahi-net.or.jp/~cs8k-cyu/bulletml/index_e.html
 
 ## Getting started
 
-Coming soon.
+A proper guide is coming soon. Meanwhile, check out the example application.
