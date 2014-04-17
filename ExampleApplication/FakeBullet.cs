@@ -10,41 +10,20 @@ namespace ExampleApplication
     public class FakeBullet : Bullet
     {
 
-        public FakeBullet(FakeBulletManager myBulletManager)
+        public FakeBullet(IBulletManager myBulletManager)
             : base(myBulletManager)
         {
-
+            TimeSpeed = 1;
+            Scale = 1;
         }
 
 
-        public FakeBullet(FakeBulletManager myBulletManager, Emitter e) : base(myBulletManager)
+        public FakeBullet(IBulletManager myBulletManager, Emitter e) : base(myBulletManager)
         {
             Emitter = e;
         }
-
-        public Emitter Emitter { get; set; }
-        public override float X
-        {
-            get
-            {
-                return 0f;
-            }
-            set
-            {
-                
-            }
-        }
-
-        public override float Y
-        {
-            get
-            {
-                return 0f;
-            }
-            set
-            {                
-            }
-        }
+        
+        public bool IsActive { get; set; }
 
         public override void BulletSpawned()
         {
@@ -53,5 +32,9 @@ namespace ExampleApplication
 
             // instantiate prefab or something..
         }
+
+        public override float X { get; set; }
+        public override float Y { get; set; }
+
     }
 }

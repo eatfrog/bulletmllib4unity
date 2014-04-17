@@ -1,7 +1,7 @@
 <?xml version="1.0" ?>
 <!DOCTYPE bulletml SYSTEM "http://www.asahi-net.or.jp/~cs8k-cyu/bulletml/bulletml.dtd">
 
-<!-- name is not part of the official bulletml xml spec, but can be used to give patterns proper names -->
+<!-- name is NOT part of the official bulletml xml spec, but can be used to give patterns proper names -->
 <!-- or managing what type of bullets this particular patterns should be shooting --> 
 <bulletml type="vertical"
           xmlns="http://www.asahi-net.or.jp/~cs8k-cyu/bulletml" name="yellow">  
@@ -10,12 +10,17 @@
 
 <repeat><times>100</times>
 	<action>
-		 <fire>
-				<direction type="absolute">$rand</direction>
-				<speed>1.2</speed>
-				<bullet /> <!-- shoot the bullet! -->
-		 </fire>
-		<wait>0.7</wait>
+    <fire>
+      <direction type="aim">0</direction>
+      <speed>$rank + 0.13</speed>
+      <bullet />
+    </fire>
+    <fire>
+      <direction type="aim">5</direction>
+      <speed>$rank + 0.13</speed>
+      <bullet />
+    </fire>
+		<wait>0.7 + $rank</wait>
 			
 		<fireRef label="test"> <!-- jump to label test below -->
 			<param>17</param>

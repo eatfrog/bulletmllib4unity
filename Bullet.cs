@@ -184,7 +184,7 @@ namespace BulletMLLib
 		/// Get the direction to aim that bullet
 		/// </summary>
 		/// <returns>angle to target the bullet</returns>
-		public float GetAimDir()
+		public float GetPlayerDirection()
 		{		
 			Vector2 shipPos = MyBulletManager.PlayerPosition(this);
 			return (float)Math.Atan2((shipPos.x - X), -(shipPos.y - Y));

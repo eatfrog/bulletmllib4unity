@@ -16,8 +16,7 @@ namespace BulletMLLib
 		/// <param name="owner">Owner.</param>
 		public SetDirectionTask(DirectionNode node, BulletMLTask owner) : base(node, owner)
 		{
-			Debug.Assert(null != Node);
-			Debug.Assert(null != Owner);
+
 		}
 
 	}

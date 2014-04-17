@@ -132,12 +132,12 @@ namespace BulletMLLib
 					BulletRefTask = new BulletMLTask(refNode.ReferencedBulletNode, this);
 
 					//populate the params of the bullet ref
-					for (int i = 0; i < childNode.ChildNodes.Count; i++)
+					foreach (BulletMLNode node in childNode.ChildNodes)
 					{
-						BulletRefTask.ParamList.Add(childNode.ChildNodes[i].GetValue(this));
+					    BulletRefTask.ParamList.Add(node.GetValue(this));
 					}
 
-					BulletRefTask.ParseTasks(bullet);
+				    BulletRefTask.ParseTasks(bullet);
 					ChildTasks.Add(BulletRefTask);
 				}
 				break;
@@ -181,13 +181,13 @@ namespace BulletMLLib
 			//get the direction to shoot the bullet
 
 			//is this the first time it has ran?  If there isn't a sequence node, we don't care!
-			if (InitialRun || (null == SequenceDirectionTask))
+			if (InitialRun || (SequenceDirectionTask == null))
 			{
 				//do we have an initial direction node?
-				if (null != InitialDirectionTask)
+				if (InitialDirectionTask != null)
 				{
 					//Set the fire direction to the "initial" value
-					float newBulletDirection = InitialDirectionTask.GetNodeValue() * (float)Math.PI / 180.0f;
+					float newBulletDirection = InitialDirectionTask.GetNodeValue() * (float) Math.PI / 180.0f;
 					switch (InitialDirectionTask.Node.NodeType)
 					{
 						case ENodeType.absolute:
@@ -207,7 +207,7 @@ namespace BulletMLLib
 						default:
 						{
 							//aim the bullet at the player
-							FireDirection = newBulletDirection + bullet.GetAimDir();
+							FireDirection = newBulletDirection + bullet.GetPlayerDirection();
 						}
 						break;
 					}
@@ -216,7 +216,7 @@ namespace BulletMLLib
 				{
 					//There isn't an initial direction task, so just aim at the bad guy.
 					//aim the bullet at the player
-					FireDirection = bullet.GetAimDir();
+					FireDirection = bullet.GetPlayerDirection();
 				}
 			}
 			else if (null != SequenceDirectionTask)

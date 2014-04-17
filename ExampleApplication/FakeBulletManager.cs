@@ -9,7 +9,7 @@ namespace ExampleApplication
 {
     public class FakeBulletManager : IBulletManager
     {
-        public List<FakeBullet> bullets = new List<FakeBullet>();
+        public List<FakeBullet> Bullets = new List<FakeBullet>();
         public Vector2 PlayerPosition(Bullet targettedBullet)
         {
             return new Vector2(0, 0);
@@ -18,14 +18,15 @@ namespace ExampleApplication
         public void RemoveBullet(Bullet deadBullet)
         {
             Console.WriteLine("Bullet removed");
-            return;
+            var b = Bullets.Single(x => x == deadBullet);
+            b.IsActive = false;
         }
 
         public Bullet CreateBullet(Emitter e)
         {
             Console.WriteLine("New bullet created");
             var bullet = new FakeBullet(this, e);
-            bullets.Add(bullet);
+            Bullets.Add(bullet);
             return bullet;
         }
     }

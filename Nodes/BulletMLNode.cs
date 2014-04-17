@@ -226,14 +226,18 @@ namespace BulletMLLib
 
                 if ("type" == name && ENodeName.bulletml == Name) continue;
 
-                if (name == "type")				//get the bullet node type
-                    NodeType = BulletMLNode.StringToType(value);
-
-                else if (name == "label")
-                    Label = value; //label is just a text value
-
-                else if (name == "name")
-                    PatternName = value;
+                switch (name)
+                {
+                    case "type":
+                        NodeType = StringToType(value);
+                        break;
+                    case "label":
+                        Label = value; //label is just a text value
+                        break;
+                    case "name":
+                        PatternName = value;
+                        break;
+                }
 
 			}
 
@@ -251,14 +255,14 @@ namespace BulletMLLib
 						NodeEquation.Parse(childNode.Value);
 						continue;
 					}
-					else if (XmlNodeType.Comment == childNode.NodeType)
-					{
-						//skip any comments in the bulletml script
-						continue;
-					}
+				    if (XmlNodeType.Comment == childNode.NodeType)
+				    {
+				        //skip any comments in the bulletml script
+				        continue;
+				    }
 
-					//create a new node
-					BulletMLNode childBulletNode = NodeFactory.CreateNode(BulletMLNode.StringToName(childNode.Name));
+				    //create a new node
+					BulletMLNode childBulletNode = NodeFactory.CreateNode(StringToName(childNode.Name));
 
 					//read in the node and store it
 					childBulletNode.Parse(childNode, this);

@@ -33,8 +33,7 @@ namespace BulletMLLib
 
 		public float GameDifficulty()
 		{
-			//This number is "$rank" which is the game difficulty.
-			Debug.Assert(null != GameManager.GameDifficulty);
+			//This number is "$rank" which is the game difficulty.			
 			return GameManager.GameDifficulty();
 		}
 	}

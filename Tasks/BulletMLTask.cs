@@ -268,28 +268,29 @@ namespace BulletMLLib
 		{
 			//run all the child tasks
 			TaskFinished = true;
-			for (int i = 0; i < ChildTasks.Count; i++)
+			foreach (BulletMLTask t in ChildTasks)
 			{
-				//is the child task finished running?
-				if (!ChildTasks[i].TaskFinished)
-				{
-					//Run the child task...
-					ERunStatus childStaus = ChildTasks[i].Run(bullet);
-					if (childStaus == ERunStatus.Stop)
-					{
-						//The child task is paused, so it is not finished
-						TaskFinished = false;
-						return childStaus;
-					}
-					else if (childStaus == ERunStatus.Continue)
-					{
-						//child task needs to do some more work
-						TaskFinished = false;
-					}
-				}
+                //is the child task finished running?
+			    if (!t.TaskFinished)
+			    {
+			        //Run the child task...
+			        ERunStatus childStatus = t.Run(bullet);
+			        if (childStatus == ERunStatus.Stop)
+			        {
+			            //The child task is paused, so it is not finished
+			            TaskFinished = false;
+			            return childStatus;
+			        }
+
+			        if (childStatus == ERunStatus.Continue)
+			        {
+			            //child task needs to do some more work
+			            TaskFinished = false;
+			        }
+			    }
 			}
 
-			return (TaskFinished ?  ERunStatus.End : ERunStatus.Continue);
+		    return (TaskFinished ?  ERunStatus.End : ERunStatus.Continue);
 		}
 
 		/// <summary>
@@ -303,15 +304,7 @@ namespace BulletMLLib
 			if (ParamList.Count < iParamNumber)
 			{
 				//the current task doens't have enough params to solve this value
-				if (null != Owner)
-				{
-					return Owner.GetParamValue(iParamNumber);
-				}
-				else
-				{
-					//got to the top of the list...this means not enough params were passed into the ref
-					return 0.0f;
-				}
+				return null != Owner ? Owner.GetParamValue(iParamNumber) : 0.0f;
 			}
 			
 			//the value of that param is the one we want
