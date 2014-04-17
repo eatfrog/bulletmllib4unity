@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Diagnostics;
 using UnityEngine;
 
 namespace BulletMLLib
@@ -54,18 +52,8 @@ namespace BulletMLLib
 		/// </summary>
 		public List<BulletMLTask> Tasks { get; private set; }
 
-		/// <summary>
-		/// Abstract property to get the X location of this bullet.
-		/// measured in pixels from upper left
-		/// </summary>
-		/// <value>The horizontal position.</value>
+		// X/Y position
 		public abstract float X { get; set; }
-
-		/// <summary>
-		/// Gets or sets the y parameter of the location
-		/// measured in pixels from upper left
-		/// </summary>
-		/// <value>The vertical position.</value>
 		public abstract float Y { get; set; }
 
 		/// <summary>
@@ -112,7 +100,7 @@ namespace BulletMLLib
 		}
 
 		/// <summary>
-		/// Convenience property to get teh label of a bullet.
+		/// Convenience property to get the label of a bullet.
 		/// </summary>
 		/// <value>The label.</value>
 		public string Label
@@ -128,9 +116,7 @@ namespace BulletMLLib
 		/// </summary>
 		/// <param name="myBulletManager">My bullet manager.</param>
 		protected Bullet(IBulletManager myBulletManager)
-		{
-			//grba the bullet manager for this dude
-			//Debug.Assert(null != myBulletManager);
+		{			
 			_bulletManager = myBulletManager;
 
 			Acceleration = Vector2.zero;
@@ -168,7 +154,8 @@ namespace BulletMLLib
 		}
 
 		/// <summary>
-		/// Update this bullet.  Called once every 1/60th of a second during runtime
+        /// Update this bullet.
+        /// If you set timespeed to consider Time.deltaTime you can update as much as you want
 		/// </summary>
 		public virtual void Update()
 		{
@@ -181,7 +168,7 @@ namespace BulletMLLib
 		}
 
 		/// <summary>
-		/// Get the direction to aim that bullet
+		/// Get player direction if we're aiming towards him
 		/// </summary>
 		/// <returns>angle to target the bullet</returns>
 		public float GetPlayerDirection()

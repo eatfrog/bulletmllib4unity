@@ -45,17 +45,16 @@ namespace BulletMLLib
 
 			//check for a bullet node
 			BulletDescriptionNode = GetChild(ENodeName.bullet) as BulletNode;
+			
+		    if (null != BulletDescriptionNode) return;
 
-			//if it didn't find one, check for the bulletref node
-			if (null == BulletDescriptionNode)
-			{
-				//make sure that dude knows what he's doing
-				BulletRefNode refNode = GetChild(ENodeName.bulletRef) as BulletRefNode;
-				refNode.FindMyBulletNode();
-				BulletDescriptionNode = refNode.ReferencedBulletNode;
-			}
-
-			Debug.Assert(null != BulletDescriptionNode);
+		    //make sure that dude knows what he's doing
+		    BulletRefNode refNode = GetChild(ENodeName.bulletRef) as BulletRefNode;
+		    if (refNode != null)
+		    {
+		        refNode.FindMyBulletNode();
+		        BulletDescriptionNode = refNode.ReferencedBulletNode;
+		    }
 		}
 
 		#endregion Methods

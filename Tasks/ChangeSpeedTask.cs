@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System;
+using System.Diagnostics;
 
 namespace BulletMLLib
 {
@@ -28,10 +29,9 @@ namespace BulletMLLib
 		/// </summary>
 		/// <param name="node">Node.</param>
 		/// <param name="owner">Owner.</param>
-		public ChangeSpeedTask(ChangeSpeedNode node, BulletMLTask owner) : base(node, owner)
+		public ChangeSpeedTask(BulletMLNode node, BulletMLTask owner) : base(node, owner)
 		{
-			Debug.Assert(null != Node);
-			Debug.Assert(null != Owner);
+
 		}
 
 		/// <summary>
@@ -44,7 +44,7 @@ namespace BulletMLLib
 			Duration = Node.GetChildValue(ENodeName.term, this);
 
 			//check for divide by 0
-			if (0.0f == Duration)
+			if (Math.Abs(Duration) < 0.01)
 			{
 				Duration = 1.0f;
 			}

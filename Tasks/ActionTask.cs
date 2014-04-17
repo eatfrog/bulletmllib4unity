@@ -1,6 +1,4 @@
-﻿using System.Diagnostics;
-
-namespace BulletMLLib
+﻿namespace BulletMLLib
 {
 	/// <summary>
 	/// An action task, this dude contains a list of tasks that are repeated
@@ -26,14 +24,11 @@ namespace BulletMLLib
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="BulletMLLib.ActionTask"/> class.
-		/// </summary>
-		/// <param name="repeatNumMax">Repeat number max.</param>
+		/// </summary>		
 		/// <param name="node">Node.</param>
 		/// <param name="owner">Owner.</param>
 		public ActionTask(ActionNode node, BulletMLTask owner) : base(node, owner)
 		{
-			Debug.Assert(null != Node);
-			Debug.Assert(null != Owner);
 
 			//set the number of times to repeat this action
 			RepeatNumMax = node.RepeatNum(this);
@@ -41,8 +36,7 @@ namespace BulletMLLib
 
 		/// <summary>
 		/// Parse a specified node and bullet into this task
-		/// </summary>
-		/// <param name="myNode">the node for this dude</param>
+		/// </summary>		
 		/// <param name="bullet">the bullet this dude is controlling</param>
 		public override void ParseTasks(Bullet bullet)
 		{

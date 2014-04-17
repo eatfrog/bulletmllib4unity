@@ -86,8 +86,6 @@ namespace BulletMLLib
 		/// <param name="bullet">the bullet this dude is controlling</param>
 		public virtual void ParseChildNode(BulletMLNode childNode, Bullet bullet)
 		{
-			Debug.Assert(null != childNode);
-			Debug.Assert(null != bullet);
 
 			//construct the correct type of node
 			switch (childNode.Name)

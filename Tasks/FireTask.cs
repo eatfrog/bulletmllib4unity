@@ -75,26 +75,25 @@ namespace BulletMLLib
 
 		#endregion //Members
 
-		#region Methods
+
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="BulletMLLib.FireTask"/> class.
 		/// </summary>
 		/// <param name="node">Node.</param>
 		/// <param name="owner">Owner.</param>
-		public FireTask(FireNode node, BulletMLTask owner) : base(node, owner)
+		public FireTask(BulletMLNode node, BulletMLTask owner) : base(node, owner)
 		{
 			NumTimesInitialized = 0;
 		}
 
 		/// <summary>
 		/// Parse a specified node and bullet into this task
-		/// </summary>
-		/// <param name="myNode">the node for this dude</param>
+		/// </summary>		
 		/// <param name="bullet">the bullet this dude is controlling</param>
 		public override void ParseTasks(Bullet bullet)
 		{
-			if (null == bullet)
+			if (bullet == null)
 			{
 				throw new NullReferenceException("bullet argument cannot be null");
 			}
@@ -113,15 +112,13 @@ namespace BulletMLLib
 			GetSpeedNodes(BulletRefTask);
 		}
 
-		/// <summary>
-		/// Parse a specified node and bullet into this task
-		/// </summary>
-		/// <param name="myNode">the node for this dude</param>
-		/// <param name="bullet">the bullet this dude is controlling</param>
-		public override void ParseChildNode(BulletMLNode childNode, Bullet bullet)
+	    /// <summary>
+	    /// Parse a specified node and bullet into this task
+	    /// </summary>	    
+	    /// <param name="childNode"></param>
+	    /// <param name="bullet">the bullet this dude is controlling</param>
+	    public override void ParseChildNode(BulletMLNode childNode, Bullet bullet)
 		{
-			Debug.Assert(null != childNode);
-			Debug.Assert(null != bullet);
 
 			switch (childNode.Name)
 			{
@@ -309,9 +306,9 @@ namespace BulletMLLib
 
 			//initialize the bullet with the bullet node stored in the Fire node
 			FireNode myFireNode = Node as FireNode;
-			Debug.Assert(null != myFireNode);
-			newBullet.InitNode(myFireNode.BulletDescriptionNode);
-            newBullet.BulletSpawned();
+
+		    if (myFireNode != null) newBullet.InitNode(myFireNode.BulletDescriptionNode);
+		    newBullet.BulletSpawned();
 			//set the owner of all the top level tasks for the new bullet to this dude
 			foreach (BulletMLTask task in newBullet.Tasks)
 			{
@@ -328,39 +325,38 @@ namespace BulletMLLib
 		/// <param name="taskToCheck">task to check if has a child direction node.</param>
 		private void GetDirectionTasks(BulletMLTask taskToCheck)
 		{
-			if (null == taskToCheck)			
+			if (taskToCheck == null)
 				return;			
 
 			//check if the dude has a direction node
 			DirectionNode dirNode = taskToCheck.Node.GetChild(ENodeName.direction) as DirectionNode;
-			if (null != dirNode)
-			{
-				//check if it is a sequence type of node
-				if (ENodeType.sequence == dirNode.NodeType)
-				{
-					//do we need a sequence node?
-					if (null == SequenceDirectionTask)
-					{
-						//store it in the sequence direction node
-						SequenceDirectionTask = new SetDirectionTask(dirNode as DirectionNode, taskToCheck);
-					}
-				}
-				else
-				{
-					//else do we need an initial node?
-					if (null == InitialDirectionTask)
-					{
-						//store it in the initial direction node
-						InitialDirectionTask = new SetDirectionTask(dirNode as DirectionNode, taskToCheck);
-					}
-				}
-			}
+		    if (null == dirNode) return;
+
+		    //check if it is a sequence type of node
+		    if (ENodeType.sequence == dirNode.NodeType)
+		    {
+		        //do we need a sequence node?
+		        if (null == SequenceDirectionTask)
+		        {
+		            //store it in the sequence direction node
+		            SequenceDirectionTask = new SetDirectionTask(dirNode, taskToCheck);
+		        }
+		    }
+		    else
+		    {
+		        //else do we need an initial node?
+		        if (null == InitialDirectionTask)
+		        {
+		            //store it in the initial direction node
+		            InitialDirectionTask = new SetDirectionTask(dirNode, taskToCheck);
+		        }
+		    }
 		}
 
 		/// <summary>
 		/// Given a node, pull the speed nodes out from underneath it and store them if necessary
 		/// </summary>
-		/// <param name="nodeToCheck">Node to check.</param>
+        /// <param name="taskToCheck">Task to check.</param>
 		private void GetSpeedNodes(BulletMLTask taskToCheck)
 		{
 			if (null == taskToCheck)
@@ -376,24 +372,23 @@ namespace BulletMLLib
 				if (ENodeType.sequence == spdNode.NodeType)
 				{
 					//do we need a sequence node?
-					if (null == SequenceSpeedTask)
+					if (SequenceSpeedTask == null)
 					{
 						//store it in the sequence speed node
-						SequenceSpeedTask = new SetSpeedTask(spdNode as SpeedNode, taskToCheck);
+						SequenceSpeedTask = new SetSpeedTask(spdNode, taskToCheck);
 					}
 				}
 				else
 				{
 					//else do we need an initial node?
-					if (null == InitialSpeedTask)
+					if (InitialSpeedTask == null)
 					{
 						//store it in the initial speed node
-						InitialSpeedTask = new SetSpeedTask(spdNode as SpeedNode, taskToCheck);
+						InitialSpeedTask = new SetSpeedTask(spdNode, taskToCheck);
 					}
 				}
 			}
 		}
 
-		#endregion //Methods
 	}
 }

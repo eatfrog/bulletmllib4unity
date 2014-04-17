@@ -33,7 +33,7 @@ namespace BulletMLLib
 		public override void ValidateNode()
 		{
 			//Find the action node this dude 
-			Debug.Assert(null != GetRootNode());
+
 			BulletMLNode refNode = GetRootNode().FindLabelNode(Label, ENodeName.fire);
 
 			//make sure we foud something
