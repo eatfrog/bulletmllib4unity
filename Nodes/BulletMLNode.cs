@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
-using BulletMLLib4Unity;
+
 
 namespace BulletMLLib
 {
@@ -16,16 +16,22 @@ namespace BulletMLLib
         internal string PatternName { get; set; }
         public string GetPatternName()
         {
-            if (!String.IsNullOrEmpty(PatternName)) return PatternName;
-
-            return RecursivePatternname(this);
+            return !String.IsNullOrEmpty(PatternName) ? PatternName : GetPatternName(this);
         }
 
-	    private static string RecursivePatternname(BulletMLNode n)
+	    private static string GetPatternName(BulletMLNode n)
 	    {
-	        if (String.IsNullOrEmpty(n.PatternName) && n.Parent != null) return RecursivePatternname(n.Parent);
+	        while (true)
+	        {
+	            if (String.IsNullOrEmpty(n.PatternName) && n.Parent != null)
+	            {
+	                n = n.Parent;
+	                continue;
+	            }
 
-	        return n.PatternName;
+	            return n.PatternName;
+	            break;
+	        }
 	    }
 
 	    /// <summary>
@@ -36,7 +42,7 @@ namespace BulletMLLib
 		/// <summary>
 		/// The type modifier of this node... like is it a sequence, or whatever
 		/// </summary>
-		private NodeType _nodeType = BulletMLLib.NodeType.None;
+		private NodeType _nodeType = NodeType.None;
 
 
 		public virtual NodeType NodeType 
@@ -61,7 +67,7 @@ namespace BulletMLLib
 		/// An equation used to get a value of this node.
 		/// </summary>
 		/// <value>The node value.</value>
-		private readonly BulletMLEquation NodeEquation = new BulletMLEquation();
+		private readonly BulletMLEquation _nodeEquation = new BulletMLEquation();
 
 		/// <summary>
 		/// A list of all the child nodes for this dude
@@ -194,15 +200,16 @@ namespace BulletMLLib
 		public float GetValue(BulletMLTask task)
 		{
 			//send to the equation for an answer
-			return NodeEquation.Solve(task.GetParamValue);
+			return _nodeEquation.Solve(task.GetParamValue);
 		}
 
 	    /// <summary>
-		/// Parse the specified bulletNodeElement.
-		/// Read all the data from the xml node into this dude.
-		/// </summary>
-		/// <param name="bulletNodeElement">Bullet node element.</param>
-		public void Parse(XmlNode bulletNodeElement, BulletMLNode parentNode)
+	    /// Parse the specified bulletNodeElement.
+	    /// Read all the data from the xml node into this dude.
+	    /// </summary>
+	    /// <param name="bulletNodeElement">Bullet node element.</param>
+	    /// <param name="parentNode"></param>
+	    public void Parse(XmlNode bulletNodeElement, BulletMLNode parentNode)
 		{
 			// Handle null argument.
 			if (null == bulletNodeElement)
@@ -221,7 +228,7 @@ namespace BulletMLLib
 				string name = mapAttributes.Item(i).Name;
 				string value = mapAttributes.Item(i).Value;
 
-                if ("type" == name && NodeName.Bulletml == Name) continue;
+                if (name == "type" && Name == NodeName.Bulletml) continue;
 
                 switch (name)
                 {
@@ -249,7 +256,7 @@ namespace BulletMLLib
 					if (XmlNodeType.Text == childNode.NodeType)
 					{
 						//Get the text of the child xml node, but store it in THIS bullet node
-						NodeEquation.Parse(childNode.Value);
+						_nodeEquation.Parse(childNode.Value);
 						continue;
 					}
 				    if (XmlNodeType.Comment == childNode.NodeType)

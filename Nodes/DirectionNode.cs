@@ -1,6 +1,3 @@
-using System;
-using System.Xml;
-using BulletMLLib4Unity;
 
 namespace BulletMLLib
 {
@@ -12,7 +9,7 @@ namespace BulletMLLib
 		public DirectionNode() : base(NodeName.Direction)
 		{
 			//set the default type to "aim"
-			NodeType = BulletMLLib.NodeType.Aim;
+			NodeType = NodeType.Aim;
 		}
 
 		/// <summary>

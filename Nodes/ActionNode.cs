@@ -15,7 +15,7 @@ namespace BulletMLLib
 		/// This is the node immediately above this one that says how many times to repeat this action.
 		/// </summary>
 		/// <value>The parent repeat node.</value>
-		public RepeatNode ParentRepeatNode { get; private set; }
+        public BulletNode ParentRepeatNode { get; private set; }
 
 		#endregion //Members
 
@@ -56,7 +56,7 @@ namespace BulletMLLib
 		/// This method is not recursive, since action and actionref nodes can be nested.
 		/// </summary>
 		/// <returns>The parent repeat node.</returns>
-		private RepeatNode FindParentRepeatNode()
+        private BulletNode FindParentRepeatNode()
 		{
 			//Parent node should never ever be empty on an action node
 			if (Parent == null )
@@ -67,7 +67,7 @@ namespace BulletMLLib
 			//If the parent is a repeat node, check how many times to repeat this action
 			if (Parent.Name == NodeName.Repeat)
 			{
-				return Parent as RepeatNode;
+                return Parent as BulletNode;
 			}
 
 			//This dude is not under a repeat node

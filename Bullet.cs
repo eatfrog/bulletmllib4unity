@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using BulletMLLib4Unity;
 using UnityEngine;
 
 namespace BulletMLLib

@@ -1,7 +1,3 @@
-using System;
-using System.Xml;
-using BulletMLLib4Unity;
-
 namespace BulletMLLib
 {
 	public class BulletNode : BulletMLNode

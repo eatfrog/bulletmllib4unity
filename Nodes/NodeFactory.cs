@@ -1,5 +1,4 @@
 using System;
-using BulletMLLib4Unity;
 
 namespace BulletMLLib
 {
@@ -35,19 +34,19 @@ namespace BulletMLLib
 				}
 				case NodeName.ChangeSpeed:
 				{
-					return new ChangeSpeedNode();
+					return new BulletNode(NodeName.ChangeSpeed);
 				}
 				case NodeName.Accel:
 				{
-					return new AccelNode();
+					return new BulletNode(NodeName.Accel);
 				}
 				case NodeName.Wait:
 				{
-					return new WaitNode();
+                    return new BulletNode(NodeName.Wait);
 				}
 				case NodeName.Repeat:
 				{
-					return new RepeatNode();
+                    return new BulletNode(NodeName.Repeat);
 				}
 				case NodeName.BulletRef:
 				{
@@ -63,23 +62,23 @@ namespace BulletMLLib
 				}
 				case NodeName.Vanish:
 				{
-					return new VanishNode();
+                    return new BulletNode(NodeName.Vanish);
 				}
 				case NodeName.Horizontal:
 				{
-					return new HorizontalNode();
+					return new BulletNode(NodeName.Horizontal);
 				}
 				case NodeName.Vertical:
 				{
-					return new VerticalNode();
+                    return new BulletNode(NodeName.Vertical);
 				}
 				case NodeName.Term:
 				{
-					return new TermNode();
+                    return new BulletNode(NodeName.Term);
 				}
 				case NodeName.Times:
 				{
-					return new TimesNode();
+                    return new BulletNode(NodeName.Times);
 				}
 				case NodeName.Direction:
 				{
@@ -87,11 +86,11 @@ namespace BulletMLLib
 				}
 				case NodeName.Speed:
 				{
-					return new SpeedNode();
+                    return new BulletNode(NodeName.Speed);
 				}
 				case NodeName.Param:
 				{
-					return new ParamNode();
+					return new BulletNode(NodeName.Param);
 				}
 				case NodeName.Bulletml:
 				{

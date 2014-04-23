@@ -1,6 +1,4 @@
-﻿using BulletMLLib4Unity;
-
-namespace BulletMLLib
+﻿namespace BulletMLLib
 {
 	/// <summary>
 	/// An action task, this dude contains a list of tasks that are repeated

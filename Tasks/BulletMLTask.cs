@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System;
-using BulletMLLib4Unity;
 
 namespace BulletMLLib
 {
@@ -79,13 +78,13 @@ namespace BulletMLLib
 				ParseChildNode(childNode, bullet);
 			}
 		}
-		
-		/// <summary>
-		/// Parse a specified node and bullet into this task
-		/// </summary>
-		/// <param name="myNode">the node for this dude</param>
-		/// <param name="bullet">the bullet this dude is controlling</param>
-		public virtual void ParseChildNode(BulletMLNode childNode, Bullet bullet)
+
+	    /// <summary>
+	    /// Parse a specified node and bullet into this task
+	    /// </summary>	    
+	    /// <param name="childNode"></param>
+	    /// <param name="bullet">the bullet this dude is controlling</param>
+	    public virtual void ParseChildNode(BulletMLNode childNode, Bullet bullet)
 		{
 
 			//construct the correct type of node
@@ -93,11 +92,9 @@ namespace BulletMLLib
 			{
 				case NodeName.Repeat:
 				{
-					//convert the node to an repeatnode
-					RepeatNode myRepeatNode = childNode as RepeatNode;
 
 					//create a placeholder bulletmltask for the repeat node
-					RepeatTask repeatTask = new RepeatTask(myRepeatNode, this);
+                    RepeatTask repeatTask = new RepeatTask(childNode, this);
 
 					//parse the child nodes into the repeat task
 					repeatTask.ParseTasks(bullet);
@@ -147,7 +144,7 @@ namespace BulletMLLib
 	
 				case NodeName.ChangeSpeed:
 				{
-					ChildTasks.Add(new ChangeSpeedTask(childNode as ChangeSpeedNode, this));
+                    ChildTasks.Add(new ChangeSpeedTask(childNode as BulletNode, this));
 				}
 				break;
 	
@@ -197,19 +194,19 @@ namespace BulletMLLib
 
 				case NodeName.Wait:
 				{
-					ChildTasks.Add(new WaitTask(childNode as WaitNode, this));
+                    ChildTasks.Add(new WaitTask(childNode as BulletNode, this));
 				}
 				break;
 
 				case NodeName.Vanish:
 				{
-					ChildTasks.Add(new VanishTask(childNode as VanishNode, this));
+                    ChildTasks.Add(new VanishTask(childNode as BulletNode, this));
 				}
 				break;
 
 				case NodeName.Accel:
 				{
-					ChildTasks.Add(new AccelTask(childNode as AccelNode, this));
+                    ChildTasks.Add(new AccelTask(childNode as BulletNode, this));
 				}
 				break;
 			}

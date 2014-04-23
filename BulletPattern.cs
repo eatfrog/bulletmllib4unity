@@ -2,9 +2,6 @@
 using System.Diagnostics;
 using System.Xml;
 using System.Xml.Schema;
-using System.IO;
-using System.Collections;
-using BulletMLLib4Unity;
 
 namespace BulletMLLib
 {

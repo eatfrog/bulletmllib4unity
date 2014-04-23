@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Diagnostics;
-using BulletMLLib4Unity;
 using UnityEngine;
+
 namespace BulletMLLib
 {
 	/// <summary>
@@ -36,7 +35,7 @@ namespace BulletMLLib
 		/// </summary>
 		/// <param name="node">Node.</param>
 		/// <param name="owner">Owner.</param>
-		public AccelTask(AccelNode node, BulletMLTask owner) : base(node, owner)
+		public AccelTask(BulletNode node, BulletMLTask owner) : base(node, owner)
 		{
 			
 		}
@@ -57,7 +56,7 @@ namespace BulletMLLib
 			}
 
 			//Get the horizontal node
-			var horiz = Node.GetChild(NodeName.Horizontal) as HorizontalNode;
+            var horiz = Node.GetChild(NodeName.Horizontal) as BulletNode;
 			if (null != horiz)
 			{
 				//Set the x component of the acceleration
@@ -87,7 +86,7 @@ namespace BulletMLLib
 			}
 
 			//Get the vertical node
-			VerticalNode vert = Node.GetChild(NodeName.Vertical) as VerticalNode;
+            BulletNode vert = Node.GetChild(NodeName.Vertical) as BulletNode;
 		    if (null == vert) return;
 
 		    //set teh y component of the acceleration

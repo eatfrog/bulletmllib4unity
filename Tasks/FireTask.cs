@@ -1,7 +1,5 @@
-﻿
-using System;
-using System.Diagnostics;
-using BulletMLLib4Unity;
+﻿using System;
+
 
 namespace BulletMLLib
 {
@@ -366,7 +364,7 @@ namespace BulletMLLib
 			}
 
 			//check if the dude has a speed node
-			SpeedNode spdNode = taskToCheck.Node.GetChild(NodeName.Speed) as SpeedNode;
+			BulletNode spdNode = taskToCheck.Node.GetChild(NodeName.Speed) as BulletNode;
 			if (null != spdNode)
 			{
 				//check if it is a sequence type of node
