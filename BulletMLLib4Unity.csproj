@@ -46,10 +46,7 @@
     <Compile Include="BulletMLEquation.cs" />
     <Compile Include="BulletPattern.cs" />
     <Compile Include="Emitter.cs" />
-    <Compile Include="ENodeName.cs" />
-    <Compile Include="ENodeType.cs" />
-    <Compile Include="EPatternType.cs" />
-    <Compile Include="ERunStatus.cs" />
+    <Compile Include="Enums.cs" />
     <Compile Include="GameManager.cs" />
     <Compile Include="IBulletManager.cs" />
     <Compile Include="Nodes\AccelNode.cs" />

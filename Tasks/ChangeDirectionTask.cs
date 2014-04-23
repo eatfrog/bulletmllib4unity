@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using BulletMLLib4Unity;
 
 namespace BulletMLLib
 {
@@ -36,35 +37,35 @@ namespace BulletMLLib
 		protected override void SetupTask(Bullet bullet)
 		{
 			//set the time length to run this dude
-			Duration = Node.GetChildValue(ENodeName.term, this);
+			Duration = Node.GetChildValue(NodeName.Term, this);
 
 			//check for divide by 0
 			if (Math.Abs(Duration) < 0.01)			
 				Duration = 1.0f;			
 
 			//Get the amount to change direction from the nodes
-			DirectionNode dirNode = Node.GetChild(ENodeName.direction) as DirectionNode;
+			DirectionNode dirNode = Node.GetChild(NodeName.Direction) as DirectionNode;
 			float value = dirNode.GetValue(this) * (float)Math.PI / 180.0f; //also make sure to convert to radians
 
 			//How do we want to change direction?
-			ENodeType changeType = dirNode.NodeType;
+			NodeType changeType = dirNode.NodeType;
 			switch (changeType)
 			{
-				case ENodeType.sequence:
+				case NodeType.Sequence:
 				{
 					//We are going to add this amount to the direction every frame
 					_directionChange = value;
 				}
 				break;
 
-				case ENodeType.absolute:
+				case NodeType.Absolute:
 				{
 					//We are going to go in the direction we are given, regardless of where we are pointing right now
 					_directionChange = value - bullet.Direction;
 				}
 				break;
 
-				case ENodeType.relative:
+				case NodeType.Relative:
 				{
 					//The direction change will be relative to our current direction
 					_directionChange = value;
@@ -90,14 +91,14 @@ namespace BulletMLLib
 			}
 
 			//The sequence type of change direction is unaffected by the duration
-			if (changeType != ENodeType.sequence)
+			if (changeType != NodeType.Sequence)
 			{
 				//Divide by the duration so we ease into the direction change
 				_directionChange /= Duration;
 			}
 		}
 		
-		public override ERunStatus Run(Bullet bullet)
+		public override RunStatus Run(Bullet bullet)
 		{
 			//change the direction of the bullet by the correct amount
 			bullet.Direction += _directionChange;
@@ -105,10 +106,10 @@ namespace BulletMLLib
 			//decrement the amount if time left to run and return End when this task is finished
 			Duration -= 1.0f * bullet.TimeSpeed;
 
-		    if (!(Duration <= 0.0f)) return ERunStatus.Continue;
+		    if (!(Duration <= 0.0f)) return RunStatus.Continue;
 
 		    TaskFinished = true;
-		    return ERunStatus.End;		    
+		    return RunStatus.End;		    
 		}
 
 	}

@@ -1,4 +1,5 @@
 using System;
+using BulletMLLib4Unity;
 
 namespace BulletMLLib
 {
@@ -12,93 +13,93 @@ namespace BulletMLLib
 		/// </summary>
 		/// <returns>An instance of the correct node type</returns>
 		/// <param name="nodeType">Node type that we want.</param>
-		public static BulletMLNode CreateNode(ENodeName nodeType)
+		public static BulletMLNode CreateNode(NodeName nodeType)
 		{
 			switch (nodeType)
 			{
-				case ENodeName.bullet:
+				case NodeName.Bullet:
 				{
 					return new BulletNode();
 				}
-				case ENodeName.action:
+				case NodeName.Action:
 				{
 					return new ActionNode();
 				}
-				case ENodeName.fire:
+				case NodeName.Fire:
 				{
 					return new FireNode();
 				}
-				case ENodeName.changeDirection:
+				case NodeName.ChangeDirection:
 				{
 					return new ChangeDirectionNode();
 				}
-				case ENodeName.changeSpeed:
+				case NodeName.ChangeSpeed:
 				{
 					return new ChangeSpeedNode();
 				}
-				case ENodeName.accel:
+				case NodeName.Accel:
 				{
 					return new AccelNode();
 				}
-				case ENodeName.wait:
+				case NodeName.Wait:
 				{
 					return new WaitNode();
 				}
-				case ENodeName.repeat:
+				case NodeName.Repeat:
 				{
 					return new RepeatNode();
 				}
-				case ENodeName.bulletRef:
+				case NodeName.BulletRef:
 				{
 					return new BulletRefNode();
 				}
-				case ENodeName.actionRef:
+				case NodeName.ActionRef:
 				{
 					return new ActionRefNode();
 				}
-				case ENodeName.fireRef:
+				case NodeName.FireRef:
 				{
 					return new FireRefNode();
 				}
-				case ENodeName.vanish:
+				case NodeName.Vanish:
 				{
 					return new VanishNode();
 				}
-				case ENodeName.horizontal:
+				case NodeName.Horizontal:
 				{
 					return new HorizontalNode();
 				}
-				case ENodeName.vertical:
+				case NodeName.Vertical:
 				{
 					return new VerticalNode();
 				}
-				case ENodeName.term:
+				case NodeName.Term:
 				{
 					return new TermNode();
 				}
-				case ENodeName.times:
+				case NodeName.Times:
 				{
 					return new TimesNode();
 				}
-				case ENodeName.direction:
+				case NodeName.Direction:
 				{
 					return new DirectionNode();
 				}
-				case ENodeName.speed:
+				case NodeName.Speed:
 				{
 					return new SpeedNode();
 				}
-				case ENodeName.param:
+				case NodeName.Param:
 				{
 					return new ParamNode();
 				}
-				case ENodeName.bulletml:
+				case NodeName.Bulletml:
 				{
-					return new BulletMLNode(ENodeName.bulletml);
+					return new BulletMLNode(NodeName.Bulletml);
 				}
 				default:
 				{
-					throw new Exception("Unhandled type of ENodeName: \"" + nodeType.ToString() + "\"");
+					throw new Exception("Unhandled type of NodeName: \"" + nodeType.ToString() + "\"");
 				}
 			}
 		}

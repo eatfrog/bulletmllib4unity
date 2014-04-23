@@ -24,7 +24,7 @@ namespace BulletMLLib
 		/// <summary>
 		/// Initializes a new instance of the <see cref="BulletMLLib.ActionNode"/> class.
 		/// </summary>
-		public ActionNode() : this(ENodeName.action)
+		public ActionNode() : this(NodeName.Action)
 		{
 		}
 
@@ -32,8 +32,8 @@ namespace BulletMLLib
 		/// Initializes a new instance of the <see cref="BulletMLLib.ActionNode"/> class.
 		/// this is the constructor used by sub classes
 		/// </summary>
-		/// <param name="eNodeType">the node type.</param>
-		public ActionNode(ENodeName eNodeType) : base(eNodeType)
+		/// <param name="nodeType">the node type.</param>
+		public ActionNode(NodeName nodeType) : base(nodeType)
 		{
 		}
 
@@ -65,7 +65,7 @@ namespace BulletMLLib
 			}
 
 			//If the parent is a repeat node, check how many times to repeat this action
-			if (Parent.Name == ENodeName.repeat)
+			if (Parent.Name == NodeName.Repeat)
 			{
 				return Parent as RepeatNode;
 			}
@@ -84,7 +84,7 @@ namespace BulletMLLib
 			if (null != ParentRepeatNode)
 			{
 				//Get the equation value of the repeat node
-				return (int)ParentRepeatNode.GetChildValue(ENodeName.times, myTask);
+				return (int)ParentRepeatNode.GetChildValue(NodeName.Times, myTask);
 			}
 			else
 			{

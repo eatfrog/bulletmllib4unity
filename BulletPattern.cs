@@ -4,6 +4,7 @@ using System.Xml;
 using System.Xml.Schema;
 using System.IO;
 using System.Collections;
+using BulletMLLib4Unity;
 
 namespace BulletMLLib
 {
@@ -34,7 +35,7 @@ namespace BulletMLLib
 		/// this is read in from the xml
 		/// </summary>
 		/// <value>The orientation.</value>
-		public EPatternType Orientation { get; private set; }
+		public PatternType Orientation { get; private set; }
 
 
 		/// <summary>
@@ -50,9 +51,9 @@ namespace BulletMLLib
 		/// </summary>
 		/// <returns>The type to name.</returns>
 		/// <param name="str">String.</param>
-		private static EPatternType StringToPatternType(string str)
+		private static PatternType StringToPatternType(string str)
 		{
-			return (EPatternType)Enum.Parse(typeof(EPatternType), str);
+			return (PatternType)Enum.Parse(typeof(PatternType), str, true);
 		}
 
         /// <summary>
@@ -84,7 +85,7 @@ namespace BulletMLLib
 					}
 
 					//Create the root node of the bulletml tree
-					RootNode = new BulletMLNode(ENodeName.bulletml);
+					RootNode = new BulletMLNode(NodeName.Bulletml);
 
 					//Read in the whole bulletml tree
 					RootNode.Parse(rootXmlNode, null);

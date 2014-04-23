@@ -1,5 +1,6 @@
 using System;
 using System.Xml;
+using BulletMLLib4Unity;
 
 namespace BulletMLLib
 {
@@ -8,10 +9,10 @@ namespace BulletMLLib
 		/// <summary>
 		/// Initializes a new instance of the <see cref="BulletMLLib.DirectionNode"/> class.
 		/// </summary>
-		public DirectionNode() : base(ENodeName.direction)
+		public DirectionNode() : base(NodeName.Direction)
 		{
 			//set the default type to "aim"
-			NodeType = ENodeType.aim;
+			NodeType = BulletMLLib.NodeType.Aim;
 		}
 
 		/// <summary>
@@ -19,7 +20,7 @@ namespace BulletMLLib
 		/// This is virtual so sub-classes can override it and validate their own shit.
 		/// </summary>
 		/// <value>The type of the node.</value>
-		public override ENodeType NodeType 
+		public override NodeType NodeType 
 		{ 
 			get
 			{
@@ -29,19 +30,19 @@ namespace BulletMLLib
 			{
 				switch (value)
 				{
-					case ENodeType.absolute:
+					case NodeType.Absolute:
 					{
 						base.NodeType = value;
 					}
 					break;
 
-					case ENodeType.relative:
+					case NodeType.Relative:
 					{
 						base.NodeType = value;
 					}
 					break;
 
-					case ENodeType.sequence:
+					case NodeType.Sequence:
 					{
 						base.NodeType = value;
 					}
@@ -50,7 +51,7 @@ namespace BulletMLLib
 					default:
 					{
 						//All other node types default to aim, because otherwise they are wrong!
-						base.NodeType = ENodeType.aim;
+						base.NodeType = NodeType.Aim;
 					}
 					break;
 				}

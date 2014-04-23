@@ -20,7 +20,7 @@ namespace BulletMLLib
 		/// <summary>
 		/// Initializes a new instance of the <see cref="BulletMLLib.ActionRefNode"/> class.
 		/// </summary>
-		public ActionRefNode() : base(ENodeName.actionRef)
+		public ActionRefNode() : base(NodeName.ActionRef)
 		{
 		}
 
@@ -35,7 +35,7 @@ namespace BulletMLLib
 			base.ValidateNode();
 
 			//Find the action node this dude references
-			BulletMLNode refNode = GetRootNode().FindLabelNode(Label, ENodeName.action);
+			BulletMLNode refNode = GetRootNode().FindLabelNode(Label, NodeName.Action);
 
 			//make sure we foud something
 			if (null == refNode)

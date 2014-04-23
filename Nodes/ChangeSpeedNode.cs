@@ -5,7 +5,7 @@ namespace BulletMLLib
 {
 	public class ChangeSpeedNode : BulletMLNode
 	{
-		public ChangeSpeedNode() : base(ENodeName.changeSpeed)
+		public ChangeSpeedNode() : base(NodeName.ChangeSpeed)
 		{
 		}
 	}

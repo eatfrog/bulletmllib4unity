@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using BulletMLLib4Unity;
 
 namespace BulletMLLib
 {
@@ -43,19 +44,19 @@ namespace BulletMLLib
 		/// Run this task and all subtasks against a bullet
 		/// This is called once a frame during runtime.
 		/// </summary>
-		/// <returns>ERunStatus: whether this task is done, paused, or still running</returns>
+		/// <returns>RunStatus: whether this task is done, paused, or still running</returns>
 		/// <param name="bullet">The bullet to update this task against.</param>
-		public override ERunStatus Run(Bullet bullet)
+		public override RunStatus Run(Bullet bullet)
 		{
 			Duration -= 1.0f * bullet.TimeSpeed;
 			if (Duration >= 0.0f)
 			{
-				return ERunStatus.Stop;
+				return RunStatus.Stop;
 			}
 			else
 			{
 				TaskFinished = true;
-				return ERunStatus.End;
+				return RunStatus.End;
 			}
 		}
 

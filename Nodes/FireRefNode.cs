@@ -21,7 +21,7 @@ namespace BulletMLLib
 		/// <summary>
 		/// Initializes a new instance of the <see cref="BulletMLLib.FireRefNode"/> class.
 		/// </summary>
-		public FireRefNode() : base(ENodeName.fireRef)
+		public FireRefNode() : base(NodeName.FireRef)
 		{
 		}
 
@@ -34,7 +34,7 @@ namespace BulletMLLib
 		{
 			//Find the action node this dude 
 
-			BulletMLNode refNode = GetRootNode().FindLabelNode(Label, ENodeName.fire);
+			BulletMLNode refNode = GetRootNode().FindLabelNode(Label, NodeName.Fire);
 
 			//make sure we foud something
 			if (null == refNode)

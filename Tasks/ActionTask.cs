@@ -1,4 +1,6 @@
-﻿namespace BulletMLLib
+﻿using BulletMLLib4Unity;
+
+namespace BulletMLLib
 {
 	/// <summary>
 	/// An action task, this dude contains a list of tasks that are repeated
@@ -41,7 +43,7 @@
 		public override void ParseTasks(Bullet bullet)
 		{
 			//is this an actionref task?
-			if (ENodeName.actionRef == Node.Name)
+			if (NodeName.ActionRef == Node.Name)
 			{
 				//add a sub task under this one for the referenced action
 				ActionRefNode myActionRefNode = Node as ActionRefNode;
@@ -73,19 +75,19 @@
 		/// Run this task and all subtasks against a bullet
 		/// This is called once a frame during runtime.
 		/// </summary>
-		/// <returns>ERunStatus: whether this task is done, paused, or still running</returns>
+		/// <returns>RunStatus: whether this task is done, paused, or still running</returns>
 		/// <param name="bullet">The bullet to update this task against.</param>
-		public override ERunStatus Run(Bullet bullet)
+		public override RunStatus Run(Bullet bullet)
 		{
 			//run the action until we hit the limit
 			while (RepeatNum < RepeatNumMax)
 			{
-				ERunStatus runStatus = base.Run(bullet);
+				RunStatus runStatus = base.Run(bullet);
 
 				//What was the return value from running all teh child actions?
 				switch (runStatus)
 				{
-					case ERunStatus.End:
+					case RunStatus.End:
 					{
 						//The actions completed successfully, initialize everything and run it again
 						RepeatNum++;
@@ -98,7 +100,7 @@
 					}
 					break;
 
-					case ERunStatus.Stop:
+					case RunStatus.Stop:
 					{
 						//Something in the child tasks paused this action
 						return runStatus;
@@ -107,14 +109,14 @@
 					default:
 					{
 						//One of the child tasks needs to keep running next frame
-						return ERunStatus.Continue;
+						return RunStatus.Continue;
 					}
 				}
 			}
 
 			//if it gets here, all the child tasks have been run the correct number of times
 			TaskFinished = true;
-			return ERunStatus.End;
+			return RunStatus.End;
 		}
 
 		#endregion //Methods

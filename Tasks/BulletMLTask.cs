@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using System;
+using BulletMLLib4Unity;
 
 namespace BulletMLLib
 {
@@ -90,7 +91,7 @@ namespace BulletMLLib
 			//construct the correct type of node
 			switch (childNode.Name)
 			{
-				case ENodeName.repeat:
+				case NodeName.Repeat:
 				{
 					//convert the node to an repeatnode
 					RepeatNode myRepeatNode = childNode as RepeatNode;
@@ -106,7 +107,7 @@ namespace BulletMLLib
 				}
 				break;
 			
-				case ENodeName.action:
+				case NodeName.Action:
 				{
 					//convert the node to an ActionNode
 					ActionNode myActionNode = childNode as ActionNode;
@@ -122,7 +123,7 @@ namespace BulletMLLib
 				}
 				break;
 		
-				case ENodeName.actionRef:
+				case NodeName.ActionRef:
 				{
 					//convert the node to an ActionNode
 					ActionRefNode myActionNode = childNode as ActionRefNode;
@@ -144,19 +145,19 @@ namespace BulletMLLib
 				}
 				break;
 	
-				case ENodeName.changeSpeed:
+				case NodeName.ChangeSpeed:
 				{
 					ChildTasks.Add(new ChangeSpeedTask(childNode as ChangeSpeedNode, this));
 				}
 				break;
 	
-				case ENodeName.changeDirection:
+				case NodeName.ChangeDirection:
 				{
 					ChildTasks.Add(new ChangeDirectionTask(childNode as ChangeDirectionNode, this));
 				}
 				break;
 
-				case ENodeName.fire:
+				case NodeName.Fire:
 				{
 					//convert the node to a fire node
 					FireNode myFireNode = childNode as FireNode;
@@ -172,7 +173,7 @@ namespace BulletMLLib
 				}
 				break;
 
-				case ENodeName.fireRef:
+				case NodeName.FireRef:
 				{
 					//convert the node to a fireref node
 					FireRefNode myFireNode = childNode as FireRefNode;
@@ -194,19 +195,19 @@ namespace BulletMLLib
 				}
 				break;
 
-				case ENodeName.wait:
+				case NodeName.Wait:
 				{
 					ChildTasks.Add(new WaitTask(childNode as WaitNode, this));
 				}
 				break;
 
-				case ENodeName.vanish:
+				case NodeName.Vanish:
 				{
 					ChildTasks.Add(new VanishTask(childNode as VanishNode, this));
 				}
 				break;
 
-				case ENodeName.accel:
+				case NodeName.Accel:
 				{
 					ChildTasks.Add(new AccelTask(childNode as AccelNode, this));
 				}
@@ -260,9 +261,9 @@ namespace BulletMLLib
 		/// Run this task and all subtasks against a bullet
 		/// This is called once a frame during runtime.
 		/// </summary>
-		/// <returns>ERunStatus: whether this task is done, paused, or still running</returns>
+		/// <returns>RunStatus: whether this task is done, paused, or still running</returns>
 		/// <param name="bullet">The bullet to update this task against.</param>
-		public virtual ERunStatus Run(Bullet bullet)
+		public virtual RunStatus Run(Bullet bullet)
 		{
 			//run all the child tasks
 			TaskFinished = true;
@@ -272,15 +273,15 @@ namespace BulletMLLib
 			    if (!t.TaskFinished)
 			    {
 			        //Run the child task...
-			        ERunStatus childStatus = t.Run(bullet);
-			        if (childStatus == ERunStatus.Stop)
+			        RunStatus childStatus = t.Run(bullet);
+			        if (childStatus == RunStatus.Stop)
 			        {
 			            //The child task is paused, so it is not finished
 			            TaskFinished = false;
 			            return childStatus;
 			        }
 
-			        if (childStatus == ERunStatus.Continue)
+			        if (childStatus == RunStatus.Continue)
 			        {
 			            //child task needs to do some more work
 			            TaskFinished = false;
@@ -288,7 +289,7 @@ namespace BulletMLLib
 			    }
 			}
 
-		    return (TaskFinished ?  ERunStatus.End : ERunStatus.Continue);
+		    return (TaskFinished ?  RunStatus.End : RunStatus.Continue);
 		}
 
 		/// <summary>
@@ -351,11 +352,11 @@ namespace BulletMLLib
 		/// </summary>
 		/// <returns>The task by label and name.</returns>
 		/// <param name="strLabel">String label of the task</param>
-		/// <param name="eName">the name of the node the task should be attached to</param>
-		public BulletMLTask FindTaskByLabelAndName(string strLabel, ENodeName eName)
+		/// <param name="name">the name of the node the task should be attached to</param>
+		public BulletMLTask FindTaskByLabelAndName(string strLabel, NodeName name)
 		{
 			//check if this is the corretc task
-			if ((strLabel == Node.Label) && (eName == Node.Name))
+			if ((strLabel == Node.Label) && (name == Node.Name))
 			{
 				return this;
 			}
@@ -363,7 +364,7 @@ namespace BulletMLLib
 			//check if any of teh child tasks have a task with that label
 			foreach (BulletMLTask childTask in ChildTasks)
 			{
-				BulletMLTask foundTask = childTask.FindTaskByLabelAndName(strLabel, eName);
+				BulletMLTask foundTask = childTask.FindTaskByLabelAndName(strLabel, name);
 				if (null != foundTask)
 				{
 					return foundTask;

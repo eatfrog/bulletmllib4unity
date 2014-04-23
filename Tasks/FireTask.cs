@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Diagnostics;
+using BulletMLLib4Unity;
 
 namespace BulletMLLib
 {
@@ -122,7 +123,7 @@ namespace BulletMLLib
 
 			switch (childNode.Name)
 			{
-				case ENodeName.bulletRef:
+				case NodeName.BulletRef:
 				{
 					//Create a task for the bullet ref 
 					BulletRefNode refNode = childNode as BulletRefNode;
@@ -139,7 +140,7 @@ namespace BulletMLLib
 				}
 				break;
 
-				case ENodeName.bullet:
+				case NodeName.Bullet:
 				{
 					//Create a task for the bullet ref 
 					BulletRefTask = new BulletMLTask(childNode, this);
@@ -187,14 +188,14 @@ namespace BulletMLLib
 					float newBulletDirection = InitialDirectionTask.GetNodeValue() * (float) Math.PI / 180.0f;
 					switch (InitialDirectionTask.Node.NodeType)
 					{
-						case ENodeType.absolute:
+						case NodeType.Absolute:
 						{
 							//the new bullet points right at a particular direction
 							FireDirection = newBulletDirection;
 						}
 						break;
 
-						case ENodeType.relative:
+						case NodeType.Relative:
 						{
 							//the new bullet direction will be relative to the old bullet
 							FireDirection = newBulletDirection + bullet.Direction;
@@ -234,7 +235,7 @@ namespace BulletMLLib
 					float newBulletSpeed = InitialSpeedTask.GetNodeValue();
 					switch (InitialSpeedTask.Node.NodeType)
 					{
-						case ENodeType.relative:
+						case NodeType.Relative:
 						{
 							//the new bullet speed will be relative to the old bullet
 							FireSpeed = newBulletSpeed + bullet.Speed;
@@ -279,9 +280,9 @@ namespace BulletMLLib
 		/// Run this task and all subtasks against a bullet
 		/// This is called once a frame during runtime.
 		/// </summary>
-		/// <returns>ERunStatus: whether this task is done, paused, or still running</returns>
+		/// <returns>RunStatus: whether this task is done, paused, or still running</returns>
 		/// <param name="bullet">The bullet to update this task against.</param>
-		public override ERunStatus Run(Bullet bullet)
+		public override RunStatus Run(Bullet bullet)
 		{
 			//Create the new bullet
 			Bullet newBullet = bullet.MyBulletManager.CreateBullet(bullet.Emitter);
@@ -291,7 +292,7 @@ namespace BulletMLLib
 			{
 				//wtf did you do???
 				TaskFinished = true;
-				return ERunStatus.End;
+				return RunStatus.End;
 			}
 
 			//set the location of the new bullet
@@ -316,7 +317,7 @@ namespace BulletMLLib
 			}
 
 			TaskFinished = true;
-			return ERunStatus.End;
+			return RunStatus.End;
 		}
 
 		/// <summary>
@@ -329,11 +330,11 @@ namespace BulletMLLib
 				return;			
 
 			//check if the dude has a direction node
-			DirectionNode dirNode = taskToCheck.Node.GetChild(ENodeName.direction) as DirectionNode;
+			DirectionNode dirNode = taskToCheck.Node.GetChild(NodeName.Direction) as DirectionNode;
 		    if (null == dirNode) return;
 
 		    //check if it is a sequence type of node
-		    if (ENodeType.sequence == dirNode.NodeType)
+		    if (NodeType.Sequence == dirNode.NodeType)
 		    {
 		        //do we need a sequence node?
 		        if (null == SequenceDirectionTask)
@@ -365,11 +366,11 @@ namespace BulletMLLib
 			}
 
 			//check if the dude has a speed node
-			SpeedNode spdNode = taskToCheck.Node.GetChild(ENodeName.speed) as SpeedNode;
+			SpeedNode spdNode = taskToCheck.Node.GetChild(NodeName.Speed) as SpeedNode;
 			if (null != spdNode)
 			{
 				//check if it is a sequence type of node
-				if (ENodeType.sequence == spdNode.NodeType)
+				if (NodeType.Sequence == spdNode.NodeType)
 				{
 					//do we need a sequence node?
 					if (SequenceSpeedTask == null)

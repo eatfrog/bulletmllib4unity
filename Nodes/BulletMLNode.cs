@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
+using BulletMLLib4Unity;
 
 namespace BulletMLLib
 {
@@ -30,15 +31,15 @@ namespace BulletMLLib
 	    /// <summary>
 		/// The XML node name of this item
 		/// </summary>
-		public ENodeName Name { get; private set; }
+		public NodeName Name { get; private set; }
 
 		/// <summary>
 		/// The type modifier of this node... like is it a sequence, or whatever
 		/// </summary>
-		private ENodeType _nodeType = ENodeType.none;
+		private NodeType _nodeType = BulletMLLib.NodeType.None;
 
 
-		public virtual ENodeType NodeType 
+		public virtual NodeType NodeType 
 		{ 
 			get
 			{
@@ -76,39 +77,35 @@ namespace BulletMLLib
 	    /// <summary>
 		/// Initializes a new instance of the <see cref="BulletMLLib.BulletMLNode"/> class.
 		/// </summary>
-		public BulletMLNode(ENodeName nodeType)
+		public BulletMLNode(NodeName nodeType)
 		{
 			ChildNodes = new List<BulletMLNode>();
 			Name = nodeType;
-			NodeType = ENodeType.none;
+			NodeType = NodeType.None;
 		}
 
 		/// <summary>
-		/// Convert a string to it's ENodeType enum equivalent
+		/// Convert a string to it's NodeType enum equivalent
 		/// </summary>
-		/// <returns>ENodeType: the nuem value of that string</returns>
+		/// <returns>NodeType: the nuem value of that string</returns>
 		/// <param name="str">The string to convert to an enum</param>
-		public static ENodeType StringToType(string str)
-		{
-			//make sure there is something there
-			if (string.IsNullOrEmpty(str))
-			{
-				return ENodeType.none;
-			}
-			else
-			{
-				return (ENodeType)Enum.Parse(typeof(ENodeType), str);
-			}
+		public static NodeType StringToType(string str)
+		{			
+			if (String.IsNullOrEmpty(str))		
+				return NodeType.None;			
+
+			return (NodeType)Enum.Parse(typeof(NodeType), str, true);
+
 		}
 		
 		/// <summary>
-		/// Convert a string to it's ENodeName enum equivalent
+		/// Convert a string to it's NodeName enum equivalent
 		/// </summary>
-		/// <returns>ENodeName: the nuem value of that string</returns>
+		/// <returns>NodeName: the nuem value of that string</returns>
 		/// <param name="str">The string to convert to an enum</param>
-		public static ENodeName StringToName(string str)
+		public static NodeName StringToName(string str)
 		{
-			return (ENodeName)Enum.Parse(typeof(ENodeName), str);
+			return (NodeName)Enum.Parse(typeof(NodeName), str, true);
 		}
 
 		/// <summary>
@@ -129,14 +126,14 @@ namespace BulletMLLib
 		/// <returns>The label node.</returns>
 		/// <param name="label">Label of the node we are looking for</param>
 		/// <param name="name">name of the node we are looking for</param>
-		public BulletMLNode FindLabelNode(string strLabel, ENodeName eName)
+		public BulletMLNode FindLabelNode(string strLabel, NodeName name)
 		{
 			//this uses breadth first search, since labelled nodes are usually top level
 
 			//Check if any of our child nodes match the request
 			for (int i = 0; i < ChildNodes.Count; i++)
 			{
-				if ((eName == ChildNodes[i].Name) && (strLabel == ChildNodes[i].Label))
+				if ((name == ChildNodes[i].Name) && (strLabel == ChildNodes[i].Label))
 				{
 					return ChildNodes[i];
 				}
@@ -145,7 +142,7 @@ namespace BulletMLLib
 			//recurse into the child nodes and see if we find any matches
 			for (int i = 0; i < ChildNodes.Count; i++)
 			{
-				BulletMLNode foundNode = ChildNodes[i].FindLabelNode(strLabel, eName);
+				BulletMLNode foundNode = ChildNodes[i].FindLabelNode(strLabel, name);
 				if (null != foundNode)
 				{
 					return foundNode;
@@ -161,7 +158,7 @@ namespace BulletMLLib
 		/// </summary>
 		/// <returns>The first parent node of that type, null if none found</returns>
 		/// <param name="nodeType">Node type to find.</param>
-		public BulletMLNode FindParentNode(ENodeName nodeType)
+		public BulletMLNode FindParentNode(NodeName nodeType)
 		{
 		    //first check if we have a parent node
 			if (null == Parent) return null;
@@ -174,7 +171,7 @@ namespace BulletMLLib
 		/// <returns>The child value. return 0.0 if no node found</returns>
 		/// <param name="name">type of child node we want.</param>
 		/// <param name="task">Task to get a value for</param>
-		public float GetChildValue(ENodeName name, BulletMLTask task)
+		public float GetChildValue(NodeName name, BulletMLTask task)
 		{
 		    return (from tree in ChildNodes where tree.Name == name select tree.GetValue(task)).FirstOrDefault();
 		}
@@ -184,7 +181,7 @@ namespace BulletMLLib
 		/// </summary>
 		/// <returns>The child.</returns>
 		/// <param name="name">type of node we want. null if not found</param>
-		public BulletMLNode GetChild(ENodeName name)
+		public BulletMLNode GetChild(NodeName name)
 		{
 		    return ChildNodes.FirstOrDefault(node => node.Name == name);
 		}
@@ -224,7 +221,7 @@ namespace BulletMLLib
 				string name = mapAttributes.Item(i).Name;
 				string value = mapAttributes.Item(i).Value;
 
-                if ("type" == name && ENodeName.bulletml == Name) continue;
+                if ("type" == name && NodeName.Bulletml == Name) continue;
 
                 switch (name)
                 {

@@ -1,6 +1,7 @@
 using System;
 using System.Xml;
 using System.Diagnostics;
+using BulletMLLib4Unity;
 
 namespace BulletMLLib
 {
@@ -21,7 +22,7 @@ namespace BulletMLLib
 		/// <summary>
 		/// Initializes a new instance of the <see cref="BulletMLLib.FireNode"/> class.
 		/// </summary>
-		public FireNode() : this(ENodeName.fire)
+		public FireNode() : this(NodeName.Fire)
 		{
 		}
 
@@ -29,8 +30,8 @@ namespace BulletMLLib
 		/// Initializes a new instance of the <see cref="BulletMLLib.FireNode"/> class.
 		/// this is the constructor used by sub classes
 		/// </summary>
-		/// <param name="eNodeType">the node type.</param>
-		public FireNode(ENodeName eNodeType) : base(eNodeType)
+		/// <param name="nodeType">the node type.</param>
+		public FireNode(NodeName nodeType) : base(nodeType)
 		{
 		}
 
@@ -44,12 +45,12 @@ namespace BulletMLLib
 			base.ValidateNode();
 
 			//check for a bullet node
-			BulletDescriptionNode = GetChild(ENodeName.bullet) as BulletNode;
+			BulletDescriptionNode = GetChild(NodeName.Bullet) as BulletNode;
 			
 		    if (null != BulletDescriptionNode) return;
 
 		    //make sure that dude knows what he's doing
-		    BulletRefNode refNode = GetChild(ENodeName.bulletRef) as BulletRefNode;
+		    BulletRefNode refNode = GetChild(NodeName.BulletRef) as BulletRefNode;
 		    if (refNode != null)
 		    {
 		        refNode.FindMyBulletNode();

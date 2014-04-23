@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using BulletMLLib4Unity;
 using UnityEngine;
 
 namespace BulletMLLib
@@ -204,13 +205,13 @@ namespace BulletMLLib
 		/// </summary>
 		/// <returns>The task by label and name.</returns>
 		/// <param name="strLabel">String label of the task</param>
-		/// <param name="eName">the name of the node the task should be attached to</param>
-		public BulletMLTask FindTaskByLabelAndName(string strLabel, ENodeName eName)
+		/// <param name="name">the name of the node the task should be attached to</param>
+		public BulletMLTask FindTaskByLabelAndName(string strLabel, NodeName name)
 		{
 			//check if any of teh child tasks have a task with that label
 			foreach (BulletMLTask childTask in Tasks)
 			{
-				BulletMLTask foundTask = childTask.FindTaskByLabelAndName(strLabel, eName);
+				BulletMLTask foundTask = childTask.FindTaskByLabelAndName(strLabel, name);
 				if (null != foundTask)
 				{
 					return foundTask;

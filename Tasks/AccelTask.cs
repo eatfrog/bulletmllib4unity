@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using BulletMLLib4Unity;
 using UnityEngine;
 namespace BulletMLLib
 {
@@ -47,7 +48,7 @@ namespace BulletMLLib
 		protected override void SetupTask(Bullet bullet)
 		{
 			//set the accelerataion we are gonna add to the bullet
-			Duration = Node.GetChildValue(ENodeName.term, this);
+			Duration = Node.GetChildValue(NodeName.Term, this);
 
 			//check for divide by 0
 			if (Math.Abs(Duration) < 0.0f)
@@ -56,20 +57,20 @@ namespace BulletMLLib
 			}
 
 			//Get the horizontal node
-			var horiz = Node.GetChild(ENodeName.horizontal) as HorizontalNode;
+			var horiz = Node.GetChild(NodeName.Horizontal) as HorizontalNode;
 			if (null != horiz)
 			{
 				//Set the x component of the acceleration
 				switch (horiz.NodeType)
 				{
-					case ENodeType.sequence:
+					case NodeType.Sequence:
 					{
 						//Sequence in an acceleration node means "add this amount every frame"
 						_acceleration.x = horiz.GetValue(this);
 					}
 					break;
 
-					case ENodeType.relative:
+					case NodeType.Relative:
 					{
 						//accelerate by a certain amount
 						_acceleration.x = horiz.GetValue(this) / Duration;
@@ -86,20 +87,20 @@ namespace BulletMLLib
 			}
 
 			//Get the vertical node
-			VerticalNode vert = Node.GetChild(ENodeName.vertical) as VerticalNode;
+			VerticalNode vert = Node.GetChild(NodeName.Vertical) as VerticalNode;
 		    if (null == vert) return;
 
 		    //set teh y component of the acceleration
 		    switch (vert.NodeType)
 		    {
-		        case ENodeType.sequence:
+		        case NodeType.Sequence:
 		        {
 		            //Sequence in an acceleration node means "add this amount every frame"
 		            _acceleration.y = vert.GetValue(this);
 		        }
 		            break;
 
-		        case ENodeType.relative:
+		        case NodeType.Relative:
 		        {
 		            //accelerate by a certain amount
 		            _acceleration.y = vert.GetValue(this) / Duration;
@@ -119,9 +120,9 @@ namespace BulletMLLib
 		/// Run this task and all subtasks against a bullet
 		/// This is called once a frame during runtime.
 		/// </summary>
-		/// <returns>ERunStatus: whether this task is done, paused, or still running</returns>
+		/// <returns>RunStatus: whether this task is done, paused, or still running</returns>
 		/// <param name="bullet">The bullet to update this task against.</param>
-		public override ERunStatus Run(Bullet bullet)
+		public override RunStatus Run(Bullet bullet)
 		{
 			//Add the acceleration to the bullet
 			bullet.Acceleration += Acceleration;
@@ -131,12 +132,12 @@ namespace BulletMLLib
 			if (Duration <= 0.0f)
 			{
 				TaskFinished = true;
-				return ERunStatus.End;
+				return RunStatus.End;
 			}
 			else 
 			{
 				//since this task isn't finished, run it again next time
-				return ERunStatus.Continue;
+				return RunStatus.Continue;
 			}
 		}
 	}

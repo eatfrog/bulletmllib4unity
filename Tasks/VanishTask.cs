@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using BulletMLLib4Unity;
 
 namespace BulletMLLib
 {
@@ -14,25 +15,24 @@ namespace BulletMLLib
 		/// </summary>
 		/// <param name="node">Node.</param>
 		/// <param name="owner">Owner.</param>
-		public VanishTask(VanishNode node, BulletMLTask owner) : base(node, owner)
+		public VanishTask(BulletMLNode node, BulletMLTask owner) : base(node, owner)
 		{
-			Debug.Assert(null != Node);
-			Debug.Assert(null != Owner);
+
 		}
 
 		/// <summary>
 		/// Run this task and all subtasks against a bullet
 		/// This is called once a frame during runtime.
 		/// </summary>
-		/// <returns>ERunStatus: whether this task is done, paused, or still running</returns>
+		/// <returns>RunStatus: whether this task is done, paused, or still running</returns>
 		/// <param name="bullet">The bullet to update this task against.</param>
-		public override ERunStatus Run(Bullet bullet)
+		public override RunStatus Run(Bullet bullet)
 		{
 			//remove the bullet via the bullet manager interface
 			IBulletManager manager = bullet.MyBulletManager;
-			Debug.Assert(null != manager);
+
 			manager.RemoveBullet(bullet);
-			return ERunStatus.End;
+			return RunStatus.End;
 		}
 
 		#endregion //Methods

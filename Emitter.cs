@@ -47,7 +47,7 @@ namespace BulletMLLib
 
             //okay find the item labelled 'top'
             bool bValidBullet = false;
-            BulletMLNode topNode = rootNode.FindLabelNode("top", ENodeName.action);
+            BulletMLNode topNode = rootNode.FindLabelNode("top", NodeName.Action);
             if (topNode != null)
             {
                 //initialize with the top node we found!
@@ -60,7 +60,7 @@ namespace BulletMLLib
                 //ok there is no 'top' node, so that means we have a list of 'top#' nodes
                 for (int i = 1; i < 10; i++)
                 {
-                    topNode = rootNode.FindLabelNode("top" + i, ENodeName.action);
+                    topNode = rootNode.FindLabelNode("top" + i, NodeName.Action);
                     if (topNode != null)
                     {
                         if (!bValidBullet)

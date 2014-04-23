@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using BulletMLLib4Unity;
 
 namespace BulletMLLib
 {
@@ -41,7 +42,7 @@ namespace BulletMLLib
 		protected override void SetupTask(Bullet bullet)
 		{
 			//set the length of time to run this dude
-			Duration = Node.GetChildValue(ENodeName.term, this);
+			Duration = Node.GetChildValue(NodeName.Term, this);
 
 			//check for divide by 0
 			if (Math.Abs(Duration) < 0.01)
@@ -49,23 +50,23 @@ namespace BulletMLLib
 				Duration = 1.0f;
 			}
 
-			switch (Node.GetChild(ENodeName.speed).NodeType)
+			switch (Node.GetChild(NodeName.Speed).NodeType)
 			{
-				case ENodeType.sequence:
+				case NodeType.Sequence:
 				{
-					SpeedChange = Node.GetChildValue(ENodeName.speed, this);
+					SpeedChange = Node.GetChildValue(NodeName.Speed, this);
 				}
 				break;
 
-				case ENodeType.relative:
+				case NodeType.Relative:
 				{
-					SpeedChange = Node.GetChildValue(ENodeName.speed, this) / Duration;
+					SpeedChange = Node.GetChildValue(NodeName.Speed, this) / Duration;
 				}
 				break;
 
 				default:
 				{
-					SpeedChange = (Node.GetChildValue(ENodeName.speed, this) - bullet.Speed) / Duration;
+					SpeedChange = (Node.GetChildValue(NodeName.Speed, this) - bullet.Speed) / Duration;
 				}
 				break;
 			}
@@ -75,9 +76,9 @@ namespace BulletMLLib
 		/// Run this task and all subtasks against a bullet
 		/// This is called once a frame during runtime.
 		/// </summary>
-		/// <returns>ERunStatus: whether this task is done, paused, or still running</returns>
+		/// <returns>RunStatus: whether this task is done, paused, or still running</returns>
 		/// <param name="bullet">The bullet to update this task against.</param>
-		public override ERunStatus Run(Bullet bullet)
+		public override RunStatus Run(Bullet bullet)
 		{
 			bullet.Speed += SpeedChange;
 
@@ -85,11 +86,11 @@ namespace BulletMLLib
 			if (Duration <= 0.0f)
 			{
 				TaskFinished = true;
-				return ERunStatus.End;
+				return RunStatus.End;
 			}
 			else
 			{
-				return ERunStatus.Continue;
+				return RunStatus.Continue;
 			}
 		}
 
