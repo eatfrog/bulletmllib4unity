@@ -30,7 +30,7 @@ namespace BulletMLLib
 				}
 				case NodeName.ChangeDirection:
 				{
-					return new ChangeDirectionNode();
+                    return new BulletNode(NodeName.ChangeDirection);
 				}
 				case NodeName.ChangeSpeed:
 				{

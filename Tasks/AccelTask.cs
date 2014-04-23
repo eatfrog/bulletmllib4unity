@@ -35,7 +35,7 @@ namespace BulletMLLib
 		/// </summary>
 		/// <param name="node">Node.</param>
 		/// <param name="owner">Owner.</param>
-		public AccelTask(BulletNode node, BulletMLTask owner) : base(node, owner)
+		public AccelTask(BulletMLNode node, BulletMLTask owner) : base(node, owner)
 		{
 			
 		}
@@ -133,11 +133,9 @@ namespace BulletMLLib
 				TaskFinished = true;
 				return RunStatus.End;
 			}
-			else 
-			{
-				//since this task isn't finished, run it again next time
-				return RunStatus.Continue;
-			}
+
+		    //since this task isn't finished, run it again next time
+		    return RunStatus.Continue;
 		}
 	}
 }

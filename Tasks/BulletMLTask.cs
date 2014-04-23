@@ -10,7 +10,6 @@ namespace BulletMLLib
 	/// </summary>
 	public class BulletMLTask
 	{
-		#region Members
 
 		/// <summary>
 		/// A list of child tasks of this dude
@@ -38,8 +37,6 @@ namespace BulletMLLib
 		/// </summary>
 		public bool TaskFinished { get; protected set; }
 
-		#endregion //Members
-
 		#region Methods
 
 		/// <summary>
@@ -57,8 +54,8 @@ namespace BulletMLLib
 			ChildTasks = new List<BulletMLTask>();
 			ParamList = new List<float>();
 			TaskFinished = false;
-			this.Owner = owner;
-			this.Node = node; 
+			Owner = owner;
+			Node = node; 
 		}
 
 		/// <summary>
@@ -86,8 +83,7 @@ namespace BulletMLLib
 	    /// <param name="bullet">the bullet this dude is controlling</param>
 	    public virtual void ParseChildNode(BulletMLNode childNode, Bullet bullet)
 		{
-
-			//construct the correct type of node
+			
 			switch (childNode.Name)
 			{
 				case NodeName.Repeat:
@@ -129,12 +125,12 @@ namespace BulletMLLib
 					ActionTask actionTask = new ActionTask(myActionNode, this);
 
 					//add the params to the action task
-					for (int i = 0; i < childNode.ChildNodes.Count; i++)
+					foreach (BulletMLNode node in childNode.ChildNodes)
 					{
-						actionTask.ParamList.Add(childNode.ChildNodes[i].GetValue(this));
+					    actionTask.ParamList.Add(node.GetValue(this));
 					}
 
-					//parse the children of the action node into the task
+				    //parse the children of the action node into the task
 					actionTask.ParseTasks(bullet);
 
 					//store the task
@@ -150,7 +146,7 @@ namespace BulletMLLib
 	
 				case NodeName.ChangeDirection:
 				{
-					ChildTasks.Add(new ChangeDirectionTask(childNode as ChangeDirectionNode, this));
+                    ChildTasks.Add(new ChangeDirectionTask(childNode as BulletNode, this));
 				}
 				break;
 

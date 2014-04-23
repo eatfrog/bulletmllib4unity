@@ -54,7 +54,6 @@
     <Compile Include="Nodes\BulletMLNode.cs" />
     <Compile Include="Nodes\BulletNode.cs" />
     <Compile Include="Nodes\BulletRefNode.cs" />
-    <Compile Include="Nodes\ChangeDirectionNode.cs" />
     <Compile Include="Nodes\DirectionNode.cs" />
     <Compile Include="Nodes\FireNode.cs" />
     <Compile Include="Nodes\FireRefNode.cs" />

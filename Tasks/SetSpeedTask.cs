@@ -14,11 +14,10 @@ namespace BulletMLLib
 		/// </summary>
 		/// <param name="node">Node.</param>
 		/// <param name="owner">Owner.</param>
-        public SetSpeedTask(BulletNode node, BulletMLTask owner)
+        public SetSpeedTask(BulletMLNode node, BulletMLTask owner)
             : base(node, owner)
 		{
-			Debug.Assert(null != Node);
-			Debug.Assert(null != Owner);
+
 		}
 
 		#endregion //Methods

@@ -14,7 +14,7 @@ namespace BulletMLLib
 		/// </summary>
 		/// <param name="node">Node.</param>
 		/// <param name="owner">Owner.</param>
-		public SetDirectionTask(DirectionNode node, BulletMLTask owner) : base(node, owner)
+		public SetDirectionTask(BulletMLNode node, BulletMLTask owner) : base(node, owner)
 		{
 
 		}
