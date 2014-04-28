@@ -27,7 +27,7 @@ namespace ExampleApplication
                 {
                     bm.Bullets[ii].Update();
                 }
-                bm.Bullets.ForEach(bullet => Console.WriteLine("X: {0} Y: {1} Aim: {2} Direction: {3}", bullet.X, bullet.Y, bullet.GetPlayerDirection(), bullet.Direction));                
+                bm.Bullets.ForEach(bullet => Console.WriteLine("X: {0} Y: {1} Aim: {2} Direction: {3}", bullet.X, bullet.Y, bullet.GetAngleTowardsPlayer(), bullet.Direction));                
                 Thread.Sleep(100);
             }
             Console.WriteLine("End");

@@ -1,6 +1,4 @@
 ﻿using System;
-
-
 namespace BulletMLLib
 {
 	/// <summary>
@@ -8,19 +6,22 @@ namespace BulletMLLib
 	/// </summary>
 	public class ChangeSpeedTask : BulletMLTask
 	{
-		#region Members
+        private float _nodeSpeed;
 
-		/// <summary>
-		/// The amount to change speed every frame
-		/// </summary>
-		private float SpeedChange { get; set; }
+        /// <summary>
+        /// the type of speed change, pulled out of the node
+        /// </summary>
+        private NodeType _changeType;
 
-		/// <summary>
-		/// How long to run this task... measured in frames
-		/// </summary>
-		private float Duration { get; set; }
+        /// <summary>
+        /// How long to run this task... measured in frames
+        /// </summary>
+        private float Duration { get; set; }
 
-		#endregion //Members
+        /// <summary>
+        /// How many frames this dude has ran
+        /// </summary>
+        private float RunDelta { get; set; }
 
 		#region Methods
 
@@ -40,35 +41,17 @@ namespace BulletMLLib
 		/// <param name="bullet">Bullet.</param>
 		protected override void SetupTask(Bullet bullet)
 		{
-			//set the length of time to run this dude
-			Duration = Node.GetChildValue(NodeName.Term, this);
+            //set the length of time to run this dude
+            Duration = Node.GetChildValue(NodeName.Term, this);
 
-			//check for divide by 0
-			if (Math.Abs(Duration) < 0.01)
-			{
-				Duration = 1.0f;
-			}
+            //check for divide by 0
+            if (Math.Abs(Duration) < 0.01)
+            {
+                Duration = 1.0f;
+            }
 
-			switch (Node.GetChild(NodeName.Speed).NodeType)
-			{
-				case NodeType.Sequence:
-				{
-					SpeedChange = Node.GetChildValue(NodeName.Speed, this);
-				}
-				break;
-
-				case NodeType.Relative:
-				{
-					SpeedChange = Node.GetChildValue(NodeName.Speed, this) / Duration;
-				}
-				break;
-
-				default:
-				{
-					SpeedChange = (Node.GetChildValue(NodeName.Speed, this) - bullet.Speed) / Duration;
-				}
-				break;
-			}
+            _nodeSpeed = Node.GetChildValue(NodeName.Speed, this);
+            _changeType = Node.GetChild(NodeName.Speed).NodeType;
 		}
 
 		/// <summary>
@@ -79,19 +62,33 @@ namespace BulletMLLib
 		/// <param name="bullet">The bullet to update this task against.</param>
 		public override RunStatus Run(Bullet bullet)
 		{
-			bullet.Speed += SpeedChange;
+            bullet.Speed += GetSpeed(bullet);
 
-			Duration -= 1.0f * bullet.TimeSpeed;
-			if (Duration <= 0.0f)
-			{
-				TaskFinished = true;
-				return RunStatus.End;
-			}
-			else
-			{
-				return RunStatus.Continue;
-			}
+            RunDelta += 1.0f * bullet.TimeSpeed;
+            if (Duration <= RunDelta)
+            {
+                TaskFinished = true;
+                return RunStatus.End;
+            }
+
+            //since this task isn't finished, run it again next time
+            return RunStatus.Continue;
+
 		}
+
+        private float GetSpeed(Bullet bullet)
+        {
+            switch (_changeType)
+            {
+                case NodeType.Sequence:                    
+                    return _nodeSpeed;                   
+                case NodeType.Relative:                    
+                    return _nodeSpeed / Duration;                    
+
+                default:                    
+                    return ((_nodeSpeed - bullet.Speed) / (Duration - RunDelta));                    
+            }
+        }
 
 		#endregion //Methods
 	}

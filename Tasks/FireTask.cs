@@ -203,7 +203,7 @@ namespace BulletMLLib
 						default:
 						{
 							//aim the bullet at the player
-							FireDirection = newBulletDirection + bullet.GetPlayerDirection();
+							FireDirection = newBulletDirection + bullet.GetAngleTowardsPlayer();
 						}
 						break;
 					}
@@ -212,7 +212,7 @@ namespace BulletMLLib
 				{
 					//There isn't an initial direction task, so just aim at the bad guy.
 					//aim the bullet at the player
-					FireDirection = bullet.GetPlayerDirection();
+					FireDirection = bullet.GetAngleTowardsPlayer();
 				}
 			}
 			else if (null != SequenceDirectionTask)
@@ -261,11 +261,11 @@ namespace BulletMLLib
 			}
 
 			//make sure the direction is between 0 and 359
-			while ((2.0f * Math.PI) <= FireDirection)
+            while (FireDirection > Math.PI)
 			{
 				FireDirection -= (2.0f * (float)Math.PI);
 			}
-			while (0.0f > FireDirection)
+            while (-Math.PI > FireDirection)
 			{
 				FireDirection += (2.0f * (float)Math.PI);
 			}

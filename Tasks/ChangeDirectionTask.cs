@@ -8,15 +8,25 @@ namespace BulletMLLib
 	public class ChangeDirectionTask : BulletMLTask
 	{
 
-		/// <summary>
-		/// The amount to change direction every frame
-		/// </summary>
-		private float _directionChange;
+        /// <summary>
+        /// The amount pulled out of the node
+        /// </summary>
+        private float NodeDirection;
 
-		/// <summary>
-		/// How long to run this task... measured in frames
-		/// </summary>
-		private float Duration { get; set; }
+        /// <summary>
+        /// the type of direction change, pulled out of the node
+        /// </summary>
+        private NodeType ChangeType;
+
+        /// <summary>
+        /// How long to run this task... measured in frames
+        /// </summary>
+        private float Duration { get; set; }
+
+        /// <summary>
+        /// How many frames this dude has ran
+        /// </summary>
+        private float RunDelta { get; set; }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="BulletMLLib.BulletMLTask"/> class.
@@ -34,81 +44,114 @@ namespace BulletMLLib
 		/// <param name="bullet">Bullet.</param>
 		protected override void SetupTask(Bullet bullet)
 		{
-			//set the time length to run this dude
-			Duration = Node.GetChildValue(NodeName.Term, this);
+            RunDelta = 0;
 
-			//check for divide by 0
-			if (Math.Abs(Duration) < 0.01)			
-				Duration = 1.0f;			
+            //set the time length to run this dude
+            Duration = Node.GetChildValue(NodeName.Term, this);
 
-			//Get the amount to change direction from the nodes
-			DirectionNode dirNode = Node.GetChild(NodeName.Direction) as DirectionNode;
-			float value = dirNode.GetValue(this) * (float)Math.PI / 180.0f; //also make sure to convert to radians
+            //check for divide by 0
+            if (Math.Abs(Duration) < 0.01)
+            {
+                Duration = 1.0f;
+            }
 
-			//How do we want to change direction?
-			NodeType changeType = dirNode.NodeType;
-			switch (changeType)
-			{
-				case NodeType.Sequence:
-				{
-					//We are going to add this amount to the direction every frame
-					_directionChange = value;
-				}
-				break;
+            //Get the amount to change direction from the nodes
+            DirectionNode dirNode = Node.GetChild(NodeName.Direction) as DirectionNode;
+		    if (dirNode != null)
+		    {
+		        NodeDirection = dirNode.GetValue(this) * (float)Math.PI / 180.0f; //also make sure to convert to radians
 
-				case NodeType.Absolute:
-				{
-					//We are going to go in the direction we are given, regardless of where we are pointing right now
-					_directionChange = value - bullet.Direction;
-				}
-				break;
-
-				case NodeType.Relative:
-				{
-					//The direction change will be relative to our current direction
-					_directionChange = value;
-				}
-				break;
-
-				default:
-				{
-					//the direction change is to aim at the enemy
-					_directionChange = ((value + bullet.GetPlayerDirection()) - bullet.Direction);
-				}
-				break;
-			}
-
-			//keep the direction between 0 and 360
-			if (_directionChange > Math.PI)
-			{
-				_directionChange -= 2 * (float)Math.PI;
-			}
-			else if (_directionChange < -Math.PI)
-			{
-				_directionChange += 2 * (float)Math.PI;
-			}
-
-			//The sequence type of change direction is unaffected by the duration
-			if (changeType != NodeType.Sequence)
-			{
-				//Divide by the duration so we ease into the direction change
-				_directionChange /= Duration;
-			}
+		        //How do we want to change direction?
+		        ChangeType = dirNode.NodeType;
+		    }
 		}
 		
 		public override RunStatus Run(Bullet bullet)
 		{
-			//change the direction of the bullet by the correct amount
-			bullet.Direction += _directionChange;
+            //change the direction of the bullet by the correct amount
+            bullet.Direction += GetDirection(bullet);
 
-			//decrement the amount if time left to run and return End when this task is finished
-			Duration -= 1.0f * bullet.TimeSpeed;
-
-		    if (!(Duration <= 0.0f)) return RunStatus.Continue;
-
-		    TaskFinished = true;
-		    return RunStatus.End;		    
+            //decrement the amount if time left to run and return End when this task is finished
+            RunDelta += 1.0f * bullet.TimeSpeed;
+            if (Duration <= RunDelta)
+            {
+                TaskFinished = true;
+                return RunStatus.End;
+            }
+            
+            //since this task isn't finished, run it again next time
+            return RunStatus.Continue;
+            		    
 		}
+
+        private float GetDirection(Bullet bullet)
+        {
+            //How do we want to change direction?
+            float direction;
+            switch (ChangeType)
+            {
+                case NodeType.Sequence:
+                    {
+                        //We are going to add this amount to the direction every frame
+                        direction = NodeDirection;
+                    }
+                    break;
+
+                case NodeType.Absolute:
+                    {
+                        //We are going to go in the direction we are given, regardless of where we are pointing right now
+                        direction = NodeDirection - bullet.Direction;
+                    }
+                    break;
+
+                case NodeType.Relative:
+                    {
+                        //The direction change will be relative to our current direction
+                        direction = NodeDirection;
+                    }
+                    break;
+
+                default:
+                    {
+                        //the direction change is to aim at the enemy
+                        direction = ((NodeDirection + bullet.GetAngleTowardsPlayer()) - bullet.Direction);
+                    }
+                    break;
+            }
+
+            //keep the direction between -180 and 180
+            direction = WrapAngle(direction);
+
+            //The sequence type of change direction is unaffected by the duration
+            if (ChangeType == NodeType.Absolute)
+            {
+                //divide by the amount fo time remaining
+                direction /= Duration - RunDelta;
+            }
+            else if (ChangeType != NodeType.Sequence)
+            {
+                //Divide by the duration so we ease into the direction change
+                direction /= Duration;
+            }
+
+            return direction;
+        }
+
+	    private static float WrapAngle(float direction)
+	    {
+	        float ret = direction;            
+
+            //keep the direction between 0-360
+            if (ret > 2 * Math.PI)
+            {
+                ret -= (float)(2 * Math.PI);
+            }
+            else if (ret < 0)
+            {
+                ret += (float)(2 * Math.PI);
+            }
+	        return ret;
+	    }
 
 	}
 }

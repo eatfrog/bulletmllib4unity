@@ -45,7 +45,7 @@ namespace BulletMLLib
 		/// Gets or sets the speed
 		/// </summary>
 		/// <value>The speed, in pixels/frame</value>
-		public float Speed { get; set; }
+		public virtual float Speed { get; set; }
 
 		/// <summary>
 		/// A list of tasks that will define this bullets behavior
@@ -77,7 +77,7 @@ namespace BulletMLLib
 		/// Gets or sets the direction.
 		/// </summary>
 		/// <value>The direction in radians.</value>
-		public float Direction
+		public virtual float Direction
 		{
 			get
 			{
@@ -171,7 +171,7 @@ namespace BulletMLLib
 		/// Get player direction if we're aiming towards him
 		/// </summary>
 		/// <returns>angle to target the bullet</returns>
-		public float GetPlayerDirection()
+		public float GetAngleTowardsPlayer()
 		{		
 			Vector2 shipPos = MyBulletManager.PlayerPosition(this);
 			return (float)Math.Atan2((shipPos.x - X), -(shipPos.y - Y));
