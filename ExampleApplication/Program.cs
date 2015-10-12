@@ -28,7 +28,9 @@ namespace ExampleApplication
                     bm.Bullets[ii].Update();
                 }
                 bm.Bullets.ForEach(bullet => Console.WriteLine("X: {0} Y: {1} Aim: {2} Direction: {3}", bullet.X, bullet.Y, bullet.GetAngleTowardsPlayer(), bullet.Direction));                
-                Thread.Sleep(100);
+                ConsoleKeyInfo key = Console.ReadKey();
+                if (key.Key == ConsoleKey.Q) break;
+                else Console.WriteLine("--- Press Q for break or any other key for next step ---");
             }
             Console.WriteLine("End");
             Console.ReadKey();

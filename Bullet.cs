@@ -174,7 +174,7 @@ namespace BulletMLLib
 		public float GetAngleTowardsPlayer()
 		{		
 			Vector2 shipPos = MyBulletManager.PlayerPosition(this);
-			return (float)Math.Atan2((shipPos.x - X), -(shipPos.y - Y));
+		    return (float)Math.Atan2((shipPos.x - X), -(shipPos.y - Y));
 		}
 
 		/// <summary>
@@ -186,7 +186,7 @@ namespace BulletMLLib
 		/// <param name="strLabel">String label.</param>
 		public BulletMLTask FindTaskByLabel(string strLabel)
 		{
-			//check if any of teh child tasks have a task with that label
+			//check if any of the child tasks have a task with that label
 			foreach (BulletMLTask childTask in Tasks)
 			{
 				BulletMLTask foundTask = childTask.FindTaskByLabel(strLabel);
@@ -200,11 +200,11 @@ namespace BulletMLLib
 		}
 
 		/// <summary>
-		/// given a label and name, find the task that matches
+		/// Given a label and name, find the task that matches
 		/// </summary>
 		/// <returns>The task by label and name.</returns>
 		/// <param name="strLabel">String label of the task</param>
-		/// <param name="name">the name of the node the task should be attached to</param>
+		/// <param name="name">The name of the node the task should be attached to</param>
 		public BulletMLTask FindTaskByLabelAndName(string strLabel, NodeName name)
 		{
 			//check if any of teh child tasks have a task with that label
